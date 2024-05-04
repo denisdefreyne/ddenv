@@ -6,6 +6,8 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+
+	"denisdefreyne.com/x/ddenv/core"
 )
 
 type RubyInstalled struct {
@@ -34,4 +36,10 @@ func (g RubyInstalled) Achieve() error {
 	}
 
 	return nil
+}
+
+func (g RubyInstalled) PreGoals() []core.Goal {
+	return []core.Goal{
+		HomebrewPackageInstalled{PackageName: "ruby-install"},
+	}
 }

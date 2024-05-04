@@ -8,6 +8,7 @@ import (
 
 	"gopkg.in/yaml.v2"
 
+	"denisdefreyne.com/x/ddenv/core"
 	"denisdefreyne.com/x/ddenv/goals"
 )
 
@@ -34,20 +35,14 @@ func ReadConfig() (Config, error) {
 	return config, nil
 }
 
-type Goal interface {
-	Description() string
-	IsAchieved() bool
-	Achieve() error
-}
-
-func ReadGoals() ([]Goal, error) {
+func ReadGoals() ([]core.Goal, error) {
 	// Get config
 	config, err := ReadConfig()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 	}
 
-	var gs []Goal
+	var simpleGoals []core.Goal
 
 	for _, entry := range config.Up {
 		var key string
@@ -77,7 +72,7 @@ func ReadGoals() ([]Goal, error) {
 		switch key {
 		case "homebrew":
 			if packageName, ok := value.(string); ok {
-				gs = append(gs, goals.HomebrewPackageInstalled{PackageName: packageName})
+				simpleGoals = append(simpleGoals, goals.HomebrewPackageInstalled{PackageName: packageName})
 			} else {
 				return nil, fmt.Errorf("homebrew goal: expected string package name")
 			}
@@ -87,12 +82,24 @@ func ReadGoals() ([]Goal, error) {
 				return nil, fmt.Errorf("ruby goal: expected .ruby-version to exist")
 			} else {
 				rubyVersionString := strings.TrimSpace(string(rubyVersionBytes))
-				gs = append(gs, goals.RubyInstalled{Version: rubyVersionString})
+				simpleGoals = append(simpleGoals, goals.RubyInstalled{Version: rubyVersionString})
 			}
 		}
 	}
 
-	return gs, nil
+	// Flatten goals
+	var flattenedGoals []core.Goal
+	for _, goal := range simpleGoals {
+		if withPreGoals, ok := goal.(core.WithPreGoals); ok {
+			flattenedGoals = append(flattenedGoals, withPreGoals.PreGoals()...)
+		}
+
+		flattenedGoals = append(flattenedGoals, goal)
+
+		// TODO: add post-goals
+	}
+
+	return flattenedGoals, nil
 }
 
 func main() {
