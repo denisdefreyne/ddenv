@@ -39,7 +39,7 @@ type Goal interface {
 	Achieve() error
 }
 
-func main() {
+func ReadGoals() ([]Goal, error) {
 	// Get config
 	config, err := ReadConfig()
 	if err != nil {
@@ -49,8 +49,6 @@ func main() {
 	var gs []Goal
 
 	for _, entry := range config.Up {
-		fmt.Printf("%v, %t\n", entry, entry)
-
 		var key string
 		var value interface{}
 
@@ -58,7 +56,7 @@ func main() {
 			key = s
 		} else if h, ok := entry.(map[interface{}]interface{}); ok {
 			if len(h) != 1 {
-				// FIXME: error (too many keys)
+				return nil, fmt.Errorf("too many keys (expected only 1)")
 			}
 
 			// Get key
@@ -68,25 +66,33 @@ func main() {
 					value = v
 					break
 				} else {
-					// FIXME: error (not a string key)
+					return nil, fmt.Errorf("expected a string key")
 				}
 			}
 		} else {
-			fmt.Printf("  error: %v\n", entry)
-			// FIXME: error
+			return nil, fmt.Errorf("unknown type (expected string or map)")
 		}
-
-		fmt.Printf("  key: %v\n", key)
-		fmt.Printf("  value: %v\n", value)
 
 		switch key {
 		case "homebrew":
 			if packageName, ok := value.(string); ok {
 				gs = append(gs, goals.HomebrewPackageInstalled{PackageName: packageName})
 			} else {
-				// FIXME: error
+				return nil, fmt.Errorf("homebrew goal: expected string package name")
 			}
+
+			// TODO: add ruby, postgres, redis, node, …
 		}
+	}
+
+	return gs, nil
+}
+
+func main() {
+	gs, err := ReadGoals()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
 	}
 
 	for _, goal := range gs {
