@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	go build .
+	go build ./cmd/ddenv/
 
 .PHONY: install
 install: build
