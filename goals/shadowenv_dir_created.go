@@ -27,6 +27,12 @@ func (g ShadowenvDirCreated) Achieve() error {
 	return err
 }
 
+func (g ShadowenvDirCreated) PreGoals() []core.Goal {
+	return []core.Goal{
+		ShadowenvInitialized{},
+	}
+}
+
 func (g ShadowenvDirCreated) PostGoals() []core.Goal {
 	return []core.Goal{
 		ShadowenvDirGitIgnored{},
