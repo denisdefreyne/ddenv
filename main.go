@@ -84,6 +84,9 @@ func ReadGoals() ([]core.Goal, error) {
 				rubyVersionString := strings.TrimSpace(string(rubyVersionBytes))
 				simpleGoals = append(simpleGoals, goals.RubyInstalled{Version: rubyVersionString})
 			}
+
+		case "bundle":
+			simpleGoals = append(simpleGoals, goals.BundleInstalled{})
 		}
 	}
 
