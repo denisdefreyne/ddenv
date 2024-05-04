@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"gopkg.in/yaml.v2"
 
@@ -81,7 +82,13 @@ func ReadGoals() ([]Goal, error) {
 				return nil, fmt.Errorf("homebrew goal: expected string package name")
 			}
 
-			// TODO: add ruby, postgres, redis, node, …
+		case "ruby":
+			if rubyVersionBytes, err := os.ReadFile(".ruby-version"); err != nil {
+				return nil, fmt.Errorf("ruby goal: expected .ruby-version to exist")
+			} else {
+				rubyVersionString := strings.TrimSpace(string(rubyVersionBytes))
+				gs = append(gs, goals.RubyInstalled{Version: rubyVersionString})
+			}
 		}
 	}
 
