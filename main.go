@@ -90,16 +90,30 @@ func ReadGoals() ([]core.Goal, error) {
 	// Flatten goals
 	var flattenedGoals []core.Goal
 	for _, goal := range simpleGoals {
-		if withPreGoals, ok := goal.(core.WithPreGoals); ok {
-			flattenedGoals = append(flattenedGoals, withPreGoals.PreGoals()...)
-		}
-
-		flattenedGoals = append(flattenedGoals, goal)
-
-		// TODO: add post-goals
+		flattenedGoals = flattenGoals(flattenedGoals, goal)
 	}
 
+	// TODO: Remove duplicate goals
+
 	return flattenedGoals, nil
+}
+
+func flattenGoals(out []core.Goal, inGoal core.Goal) []core.Goal {
+	if withPreGoals, ok := inGoal.(core.WithPreGoals); ok {
+		for _, g := range withPreGoals.PreGoals() {
+			out = flattenGoals(out, g)
+		}
+	}
+
+	out = append(out, inGoal)
+
+	if withPostGoals, ok := inGoal.(core.WithPostGoals); ok {
+		for _, g := range withPostGoals.PostGoals() {
+			out = flattenGoals(out, g)
+		}
+	}
+
+	return out
 }
 
 func main() {

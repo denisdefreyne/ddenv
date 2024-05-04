@@ -19,13 +19,7 @@ func (g RubyInstalled) Description() string {
 }
 
 func (g RubyInstalled) IsAchieved() bool {
-	// Get path to Ruby installation directory
-	usr, _ := user.Current()
-	homeDir := usr.HomeDir
-	path := filepath.Join(homeDir, ".rubies", fmt.Sprintf("ruby-%v", g.Version))
-
-	// Check
-	_, err := os.Lstat(path)
+	_, err := os.Lstat(g.path())
 	return err == nil
 }
 
@@ -42,4 +36,16 @@ func (g RubyInstalled) PreGoals() []core.Goal {
 	return []core.Goal{
 		HomebrewPackageInstalled{PackageName: "ruby-install"},
 	}
+}
+
+func (g RubyInstalled) PostGoals() []core.Goal {
+	return []core.Goal{
+		RubyShadowenvCreated{Version: g.Version, Path: g.path()},
+	}
+}
+
+func (g RubyInstalled) path() string {
+	usr, _ := user.Current()
+	homeDir := usr.HomeDir
+	return filepath.Join(homeDir, ".rubies", fmt.Sprintf("ruby-%v", g.Version))
 }
