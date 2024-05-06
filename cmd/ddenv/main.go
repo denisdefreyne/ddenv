@@ -87,6 +87,15 @@ func ReadGoals() ([]core.Goal, error) {
 
 		case "bundle":
 			simpleGoals = append(simpleGoals, goals.BundleInstalled{})
+
+		case "node":
+			if nodeVersion, ok := value.(string); ok {
+				simpleGoals = append(simpleGoals, goals.NodeInstalled{Version: nodeVersion})
+			} else {
+				return nil, fmt.Errorf("node goal: expected string version")
+			}
+
+			// TODO: handle unknown key
 		}
 	}
 
