@@ -95,6 +95,9 @@ func ReadGoals() ([]core.Goal, error) {
 				return nil, fmt.Errorf("node goal: expected string version")
 			}
 
+		case "npm":
+			simpleGoals = append(simpleGoals, goals.NpmPackagesInstalled{})
+
 			// TODO: handle unknown key
 		}
 	}

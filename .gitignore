@@ -1,2 +1,4 @@
 ddenv
 !ddenv/
+
+node_modules/
