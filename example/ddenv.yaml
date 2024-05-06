@@ -1,6 +1,6 @@
 up:
-  # - homebrew: overmind
-  # - homebrew: font-iosevka
+  - homebrew: overmind
+  - homebrew: font-iosevka
   - ruby
   - bundle
   - node: 20.12.2

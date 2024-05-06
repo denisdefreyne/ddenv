@@ -98,7 +98,8 @@ func ReadGoals() ([]core.Goal, error) {
 		case "npm":
 			simpleGoals = append(simpleGoals, goals.NpmPackagesInstalled{})
 
-			// TODO: handle unknown key
+		default:
+			return nil, fmt.Errorf("unknown goal: %s", key)
 		}
 	}
 
