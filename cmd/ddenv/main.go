@@ -177,15 +177,15 @@ func main() {
 		isAchieved := goal.IsAchieved()
 
 		if isAchieved {
-			updateStatus(rowDelta, colDelta, "previously achieved")
+			updateStatus(rowDelta, colDelta, "skipped")
 		} else {
-			updateStatus(rowDelta, colDelta, "achieving...")
+			updateStatus(rowDelta, colDelta, "working...")
 			err = goal.Achieve()
 			if err != nil {
 				updateStatus(rowDelta, colDelta, "failed")
 				fmt.Printf("        %v\n", err)
 			} else {
-				updateStatus(rowDelta, colDelta, "newly achieved")
+				updateStatus(rowDelta, colDelta, "done")
 			}
 		}
 	}
