@@ -131,29 +131,61 @@ func flattenGoals(out []core.Goal, inGoal core.Goal) []core.Goal {
 	return out
 }
 
+func updateStatus(rowDelta int, colDelta int, status string) {
+	// Save cursor position
+	fmt.Printf("\033[s")
+
+	// Move to line and column
+	fmt.Printf("\033[%dA", rowDelta)
+	fmt.Printf("\033[%dC", colDelta)
+
+	// Update status
+	fmt.Printf("\033[K")
+	fmt.Print(status)
+
+	// Restore cursor position
+	fmt.Printf("\033[u")
+}
+
 func main() {
+	// Get goals
 	gs, err := ReadGoals()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
 
+	// Get goal message size
+	var maxDescriptionLen int
 	for _, goal := range gs {
-		fmt.Printf("--- %v\n", goal.Description())
+		thisLen := len(goal.Description())
+		if thisLen > maxDescriptionLen {
+			maxDescriptionLen = thisLen
+		}
+	}
 
-		fmt.Printf("      checking...\n")
+	// Print pending status
+	for _, goal := range gs {
+		fmt.Printf("%-[2]*[1]s  pending\n", goal.Description(), maxDescriptionLen)
+	}
+
+	for idx, goal := range gs {
+		rowDelta := len(gs) - idx
+		colDelta := maxDescriptionLen + 2
+
+		updateStatus(rowDelta, colDelta, "checking...")
 		isAchieved := goal.IsAchieved()
 
 		if isAchieved {
-			fmt.Printf("      previous achieved\n")
+			updateStatus(rowDelta, colDelta, "previously achieved")
 		} else {
-			fmt.Printf("      achieving...\n")
+			updateStatus(rowDelta, colDelta, "achieving...")
 			err = goal.Achieve()
 			if err != nil {
-				fmt.Printf("      failed\n")
+				updateStatus(rowDelta, colDelta, "failed")
 				fmt.Printf("        %v\n", err)
 			} else {
-				fmt.Printf("      newly achieved\n")
+				updateStatus(rowDelta, colDelta, "newly achieved")
 			}
 		}
 	}
