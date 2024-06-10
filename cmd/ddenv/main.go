@@ -185,6 +185,7 @@ func main() {
 			if err != nil {
 				updateStatus(rowDelta, colDelta, "failed")
 				fmt.Printf("        %v\n", err)
+				return
 			} else {
 				updateStatus(rowDelta, colDelta, "done")
 			}
