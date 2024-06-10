@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+	"regexp"
 
 	"denisdefreyne.com/x/ddenv/core"
 )
@@ -58,5 +59,18 @@ func (g RubyInstalled) PostGoals() []core.Goal {
 func (g RubyInstalled) path() string {
 	usr, _ := user.Current()
 	homeDir := usr.HomeDir
-	return filepath.Join(homeDir, ".rubies", fmt.Sprintf("ruby-%v", g.Version))
+
+	versionStartsWithDigit, err := regexp.Match(`^[0-9]`, []byte(g.Version))
+	if err != nil {
+		panic(err)
+	}
+
+	prefix := ""
+	if versionStartsWithDigit {
+		prefix = "ruby-"
+	}
+
+	result := filepath.Join(homeDir, ".rubies", fmt.Sprintf("%v%v", prefix, g.Version))
+
+	return result
 }
