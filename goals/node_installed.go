@@ -24,7 +24,7 @@ func (g NodeInstalled) IsAchieved() bool {
 }
 
 func (g NodeInstalled) Achieve() error {
-	cmd := exec.Command("node-build", "--cleanup", g.Version)
+	cmd := exec.Command("node-build", g.Version, g.path())
 	if err := cmd.Run(); err != nil {
 		return err
 	}
