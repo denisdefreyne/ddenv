@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -10,6 +11,12 @@ import (
 
 	"denisdefreyne.com/x/ddenv/core"
 	"denisdefreyne.com/x/ddenv/goals"
+)
+
+var (
+	buildVersion = "dev"
+	buildCommit  = "none"
+	buildDate    = "unknown"
 )
 
 type Config struct {
@@ -166,6 +173,18 @@ func updateStatus(rowDelta int, colDelta int, status string) {
 }
 
 func main() {
+	// Parse args
+	version := flag.Bool("v", false, "print version")
+	flag.Parse()
+	if *version {
+		fmt.Printf(
+			"ddenv %s, commit %s, built at %s",
+			buildVersion, buildCommit, buildDate)
+
+		fmt.Println(buildVersion)
+		os.Exit(0)
+	}
+
 	// Get goals
 	gs, err := ReadGoals()
 	if err != nil {

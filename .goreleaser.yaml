@@ -11,6 +11,11 @@ builds:
     goos:
       - darwin
     main: ./cmd/ddenv/
+    ldflags:
+      - "-s -w "
+      - "-X ddenv.version={{.Version}}"
+      - "-X ddenv.commit={{.Commit}}"
+      - "-X ddenv.date={{.Date}}"
 
 archives:
   - format: tar.gz
