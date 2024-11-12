@@ -16,14 +16,7 @@ environment for development.
 
 ## Installation
 
-> [!NOTE]
-> At some point, it’ll be possible simply run `brew install denisdefreyne/ddenv/ddenv`.
-
-1. Ensure you have Go installed (1.22 or later)
-2. Clone this repository
-3. In this repository, run `make install`
-
-The `ddenv` executable will be placed inside `~/bin`.
+Run `brew install denisdefreyne/tap/ddenv`.
 
 ## Quick start
 
