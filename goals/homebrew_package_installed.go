@@ -10,6 +10,19 @@ type HomebrewPackageInstalled struct {
 	PackageName string
 }
 
+type brewInfoFormula struct {
+	Installed []interface{}
+}
+
+type brewInfoCask struct {
+	Installed string
+}
+
+type brewInfo struct {
+	Formulae []brewInfoFormula
+	Casks []brewInfoCask
+}
+
 type brewInfoEntry struct {
 	Installed []interface{}
 }
@@ -20,25 +33,32 @@ func (g HomebrewPackageInstalled) Description() string {
 
 func (g HomebrewPackageInstalled) IsAchieved() bool {
 	// Get raw output
-	brewInfoCmd := exec.Command("brew", "info", "--json", g.PackageName)
+	brewInfoCmd := exec.Command("brew", "info", "--json=v2", g.PackageName)
 	brewInfoOut, err := brewInfoCmd.Output()
 	if err != nil {
 		return false
 	}
 
 	// Parse JSON
-	var brewInfoEntries []brewInfoEntry
-	if err := json.Unmarshal(brewInfoOut, &brewInfoEntries); err != nil {
+	var info brewInfo
+	if err := json.Unmarshal(brewInfoOut, &info); err != nil {
 		fmt.Println(err.Error())
 		return false
 	}
 
 	// Check
-	if len(brewInfoEntries) < 1 {
-		return false
-	}
-	if len(brewInfoEntries[0].Installed) < 1 {
-		return false
+	if len(info.Formulae) > 0 {
+		if len(info.Formulae[0].Installed) > 0 {
+			return true
+		} else {
+			return false
+		}
+	} else if len(info.Casks) > 0 {
+		if info.Casks[0].Installed != "" {
+			return true
+		} else {
+			return false
+		}
 	}
 
 	return true

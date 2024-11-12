@@ -1,6 +1,7 @@
 up:
   - homebrew: overmind
   - homebrew: font-iosevka
+  - homebrew: homebrew/cask/font-gentium-plus
   - ruby
   - bundle
   - node: 20.12.2
