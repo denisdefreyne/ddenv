@@ -13,9 +13,9 @@ builds:
     main: ./cmd/ddenv/
     ldflags:
       - "-s -w "
-      - "-X ddenv.version={{.Version}}"
-      - "-X ddenv.commit={{.Commit}}"
-      - "-X ddenv.date={{.Date}}"
+      - "-X main.buildVersion={{.Version}}"
+      - "-X main.buildCommit={{.Commit}}"
+      - "-X main.buildDate={{.Date}}"
 
 archives:
   - format: tar.gz
