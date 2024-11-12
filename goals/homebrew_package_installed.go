@@ -48,17 +48,9 @@ func (g HomebrewPackageInstalled) IsAchieved() bool {
 
 	// Check
 	if len(info.Formulae) > 0 {
-		if len(info.Formulae[0].Installed) > 0 {
-			return true
-		} else {
-			return false
-		}
+		return len(info.Formulae[0].Installed) > 0
 	} else if len(info.Casks) > 0 {
-		if info.Casks[0].Installed != "" {
-			return true
-		} else {
-			return false
-		}
+		return info.Casks[0].Installed != ""
 	}
 
 	return true
