@@ -53,7 +53,10 @@ func (g HomebrewPackageInstalled) IsAchieved() bool {
 		return info.Casks[0].Installed != ""
 	}
 
-	return true
+	// This can’t really happen: either there are formulae or casks, but not both
+	// can be missing. If an unknown name is given, the `brew info` command will
+	// fail. Still, return `false` is a safe fallback.
+	return false
 }
 
 func (g HomebrewPackageInstalled) Achieve() error {
