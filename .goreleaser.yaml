@@ -28,3 +28,17 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
+
+brews:
+  - name: "ddenv"
+    description: "tool for maintaining a local environment for development"
+    license: "Hippocratic License 3.0"
+    homepage: "https://github.com/denisdefreyne/ddenv"
+    directory: "Formula"
+    repository:
+      owner: "denisdefreyne"
+      name: "homebrew-tap"
+    test:
+      system "#{bin}/task", "--help"
+    install: |-
+      bin.install "ddenv"
