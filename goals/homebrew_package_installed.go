@@ -20,7 +20,7 @@ type brewInfoCask struct {
 
 type brewInfo struct {
 	Formulae []brewInfoFormula
-	Casks []brewInfoCask
+	Casks    []brewInfoCask
 }
 
 type brewInfoEntry struct {
