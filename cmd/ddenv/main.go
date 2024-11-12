@@ -1,7 +1,7 @@
 package main
 
 import (
-	"flag"
+	flag "github.com/spf13/pflag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -174,14 +174,19 @@ func updateStatus(rowDelta int, colDelta int, status string) {
 
 func main() {
 	// Parse args
-	version := flag.Bool("v", false, "print version")
+	var showVersion = flag.BoolP("version", "v", false, "print version")
+	var showHelp = flag.BoolP("help", "h", false, "print help")
 	flag.Parse()
-	if *version {
-		fmt.Printf(
-			"ddenv %s, commit %s, built at %s",
-			buildVersion, buildCommit, buildDate)
 
-		fmt.Println(buildVersion)
+	// Handle args
+	if *showVersion {
+		fmt.Printf(
+			"ddenv %s\ncommit %s\nbuilt at %s\n",
+			buildVersion, buildCommit, buildDate)
+		os.Exit(0)
+	}
+	if *showHelp {
+		flag.PrintDefaults()
 		os.Exit(0)
 	}
 
