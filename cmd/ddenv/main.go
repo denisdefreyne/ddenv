@@ -1,8 +1,8 @@
 package main
 
 import (
-	flag "github.com/spf13/pflag"
 	"fmt"
+	flag "github.com/spf13/pflag"
 	"os"
 	"path/filepath"
 
@@ -94,7 +94,7 @@ func ReadGoals() ([]core.Goal, error) {
 		goalFn := core.FindGoal(key)
 		if goalFn != nil {
 			if goal, err := goalFn(value); err != nil {
-				return nil, fmt.Errorf("%v goal: %v",key, err)
+				return nil, fmt.Errorf("%v goal: %v", key, err)
 			} else {
 				simpleGoals = append(simpleGoals, goal)
 			}

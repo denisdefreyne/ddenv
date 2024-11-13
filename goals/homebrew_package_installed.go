@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	core.RegisterGoal("homebrew", func (value interface{}) (core.Goal, error) {
+	core.RegisterGoal("homebrew", func(value interface{}) (core.Goal, error) {
 		if packageName, ok := value.(string); ok {
 			return HomebrewPackageInstalled{PackageName: packageName}, nil
 		} else {

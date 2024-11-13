@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	core.RegisterGoal("node", func (value interface{}) (core.Goal, error) {
+	core.RegisterGoal("node", func(value interface{}) (core.Goal, error) {
 		if nodeVersion, ok := value.(string); ok {
 			return NodeInstalled{Version: nodeVersion}, nil
 		} else {
