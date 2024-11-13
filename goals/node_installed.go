@@ -10,6 +10,16 @@ import (
 	"denisdefreyne.com/x/ddenv/core"
 )
 
+func init() {
+	core.RegisterGoal("node", func (value interface{}) (core.Goal, error) {
+		if nodeVersion, ok := value.(string); ok {
+			return NodeInstalled{Version: nodeVersion}, nil
+		} else {
+			return nil, fmt.Errorf("expected string version")
+		}
+	})
+}
+
 type NodeInstalled struct {
 	Version string
 }

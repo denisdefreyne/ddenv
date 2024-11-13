@@ -6,11 +6,23 @@ import (
 	"os"
 	"os/exec"
 	"os/user"
+	"strings"
 	"path/filepath"
 	"regexp"
 
 	"denisdefreyne.com/x/ddenv/core"
 )
+
+func init() {
+	core.RegisterGoal("ruby", func (value interface{}) (core.Goal, error) {
+		if rubyVersionBytes, err := os.ReadFile(".ruby-version"); err != nil {
+			return nil, fmt.Errorf("expected .ruby-version to exist")
+		} else {
+			rubyVersionString := strings.TrimSpace(string(rubyVersionBytes))
+			return RubyInstalled{Version: rubyVersionString}, nil
+		}
+	})
+}
 
 type RubyInstalled struct {
 	Version string

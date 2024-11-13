@@ -4,7 +4,19 @@ import (
 	"encoding/json"
 	"fmt"
 	"os/exec"
+
+	"denisdefreyne.com/x/ddenv/core"
 )
+
+func init() {
+	core.RegisterGoal("homebrew", func (value interface{}) (core.Goal, error) {
+		if packageName, ok := value.(string); ok {
+			return HomebrewPackageInstalled{PackageName: packageName}, nil
+		} else {
+			return nil, fmt.Errorf("expected string package name")
+		}
+	})
+}
 
 type HomebrewPackageInstalled struct {
 	PackageName string

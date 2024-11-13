@@ -6,6 +6,12 @@ import (
 	"denisdefreyne.com/x/ddenv/core"
 )
 
+func init() {
+	core.RegisterGoal("bundle", func (value interface{}) (core.Goal, error) {
+		return BundleInstalled{}, nil
+	})
+}
+
 type BundleInstalled struct {
 }
 

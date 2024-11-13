@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"gopkg.in/yaml.v2"
 
 	"denisdefreyne.com/x/ddenv/core"
-	"denisdefreyne.com/x/ddenv/goals"
+	_ "denisdefreyne.com/x/ddenv/goals"
 )
 
 var (
@@ -92,36 +91,14 @@ func ReadGoals() ([]core.Goal, error) {
 			return nil, fmt.Errorf("unknown type (expected string or map)")
 		}
 
-		switch key {
-		case "homebrew":
-			if packageName, ok := value.(string); ok {
-				simpleGoals = append(simpleGoals, goals.HomebrewPackageInstalled{PackageName: packageName})
+		goalFn := core.FindGoal(key)
+		if goalFn != nil {
+			if goal, err := goalFn(value); err != nil {
+				return nil, fmt.Errorf("%v goal: %v",key, err)
 			} else {
-				return nil, fmt.Errorf("homebrew goal: expected string package name")
+				simpleGoals = append(simpleGoals, goal)
 			}
-
-		case "ruby":
-			if rubyVersionBytes, err := os.ReadFile(".ruby-version"); err != nil {
-				return nil, fmt.Errorf("ruby goal: expected .ruby-version to exist")
-			} else {
-				rubyVersionString := strings.TrimSpace(string(rubyVersionBytes))
-				simpleGoals = append(simpleGoals, goals.RubyInstalled{Version: rubyVersionString})
-			}
-
-		case "bundle":
-			simpleGoals = append(simpleGoals, goals.BundleInstalled{})
-
-		case "node":
-			if nodeVersion, ok := value.(string); ok {
-				simpleGoals = append(simpleGoals, goals.NodeInstalled{Version: nodeVersion})
-			} else {
-				return nil, fmt.Errorf("node goal: expected string version")
-			}
-
-		case "npm":
-			simpleGoals = append(simpleGoals, goals.NpmPackagesInstalled{})
-
-		default:
+		} else {
 			return nil, fmt.Errorf("unknown goal: %s", key)
 		}
 	}

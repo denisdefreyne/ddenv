@@ -2,7 +2,15 @@ package goals
 
 import (
 	"os/exec"
+
+	"denisdefreyne.com/x/ddenv/core"
 )
+
+func init() {
+	core.RegisterGoal("npm", func (value interface{}) (core.Goal, error) {
+		return NpmPackagesInstalled{}, nil
+	})
+}
 
 type NpmPackagesInstalled struct {
 }
