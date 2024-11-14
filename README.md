@@ -8,11 +8,8 @@ environment for development.
 
 ## Requirements
 
-- Homebrew
-- fish shell
-
-> [!NOTE]
-> In the future, this will work for bash and zsh as well.
+- [Homebrew](https://brew.sh/)
+- a support shell (zsh, bash, or fish)
 
 ## Installation
 
@@ -35,21 +32,19 @@ Then, run `ddenv`:
 
 ```
 % ddenv
-Installing Homebrew package ‘ruby-install’      skipped
-Installing Ruby 3.3.1                           skipped
-Adding Shadowenv to shell                       skipped
-Creating Shadowenv dir                          done
-Adding Shadowenv dir to .gitignore              done
-Adding Ruby 3.3.1 to Shadowenv                  done
-Installing Ruby gem bundler                     skipped
-Installing bundle                               skipped
-Installing Homebrew package ‘node-build’        checking...
-Installing Node 22.0.0                          pending
-Adding Shadowenv to shell                       pending
-Creating Shadowenv dir                          pending
-Adding Shadowenv dir to .gitignore              pending
-Adding Node 22.0.0 to Shadowenv                 pending
-Installing npm packages                         pending
+Installing Homebrew package ‘overmind’       skipped
+Installing Homebrew package ‘ruby-install’   skipped
+Installing Ruby 3.3.6                        skipped
+Adding Shadowenv to shell                    skipped
+Creating Shadowenv dir                       done
+Adding Shadowenv dir to .gitignore           done
+Adding Ruby 3.3.6 to Shadowenv               done
+Installing Ruby gem bundler                  done
+Installing bundle                            done
+Installing Homebrew package ‘node-build’     checking...
+Installing Node 20.12.2                      pending
+Adding Node 20.12.2 to Shadowenv             pending
+Installing npm packages                      pending
 ```
 
 Now your local developer environment is ready to be used.
