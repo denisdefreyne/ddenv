@@ -13,16 +13,18 @@ Then, tun `brew install denisdefreyne/tap/ddenv`.
 
 ## Quick start
 
-Create a `ddenv.yaml` file which contains the list of dependencies to manage. For example:
+Create a `ddenv.yaml` file which contains the list of dependencies to manage. For example:[^ruby-version]
 
 ```yaml
 up:
   - homebrew: overmind
-  - ruby: 3.3.0
+  - ruby
   - bundle
   - node: 20.12.2
   - npm
 ```
+
+[^ruby-version]: This example relies on a `.ruby-version` file being present, e.g. with the file contents `3.3.6`.
 
 Then, run `ddenv`:
 
