@@ -1,23 +1,19 @@
 # ddenv
 
-**ddenv** (*Denis’ Developer Environment*) is a tool for maintaining a local
-environment for development.
+**ddenv** (*Denis’ Developer Environment*) is a tool for maintaining a local environment for development.
 
 > [!CAUTION]
-> This software is a pre-alpha work in progress. Do not use just yet.
+> This is pre-release software.
 
 ## Requirements
 
-- [Homebrew](https://brew.sh/)
-- a support shell (zsh, bash, or fish)
+First, ensure you have [Homebrew](https://brew.sh/) installed, and are using a supported shell (zsh, bash, or fish).
 
-## Installation
-
-Run `brew install denisdefreyne/tap/ddenv`.
+Then, tun `brew install denisdefreyne/tap/ddenv`.
 
 ## Quick start
 
-Create a `ddenv.yaml` file which contains the list of dependencies to manage:
+Create a `ddenv.yaml` file which contains the list of dependencies to manage. For example:
 
 ```yaml
 up:
@@ -51,9 +47,22 @@ Now your local developer environment is ready to be used.
 
 ## Goals
 
-- <code>homebrew: <var>PACKAGENAME</var></code> installs the Homebrew package with the given name.
-- <code>ruby</code> installs Ruby (with the version specified in the `.ruby-version`
-  file).
-- <code>bundle</code> runs `bundle install`.
-- <code>node: <var>VERSION</var></code> installs the give Node.js version.
-- <code>npm</code> installs packages from package.json using npm.
+-   <code>homebrew: <var>PACKAGENAME</var></code> installs the Homebrew package with the given name.
+
+    e.g. `- homebrew: overmind`
+
+-   <code>ruby</code> installs Ruby (with the version specified in the `.ruby-version` file).
+
+    e.g. `- ruby`
+
+-   <code>bundle</code> runs `bundle install`.
+
+    e.g. `- bundle`
+
+-   <code>node: <var>VERSION</var></code> installs the give Node.js version.
+
+    e.g. `- node: 22.11.0`
+
+-   <code>npm</code> installs packages from package.json using npm.
+
+    e.g. `- npm`
