@@ -28,8 +28,10 @@ func (g GemInstalled) IsAchieved() bool {
 
 func (g GemInstalled) Achieve() error {
 	cmd := exec.Command("shadowenv", "exec", "--", "gem", "install", g.Name)
-	if err := cmd.Run(); err != nil {
-		return err
+
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%v\n\n%v", err, string(stdoutStderr))
 	}
 
 	return nil

@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	flag "github.com/spf13/pflag"
 	"os"
 	"path/filepath"
+
+	flag "github.com/spf13/pflag"
 
 	"gopkg.in/yaml.v2"
 
@@ -149,6 +150,20 @@ func updateStatus(rowDelta int, colDelta int, status string) {
 	fmt.Printf("\033[u")
 }
 
+func calcUseColor() bool {
+	if os.Getenv("NO_COLOR") != "" {
+		return false
+	}
+
+	if os.Getenv("TERM") == "dumb" {
+		return false
+	}
+
+	return true
+}
+
+var useColor = calcUseColor()
+
 func main() {
 	// Parse args
 	var showVersion = flag.BoolP("version", "v", false, "print version")
@@ -188,6 +203,13 @@ func main() {
 		fmt.Printf("%-[2]*[1]s  pending\n", goal.Description(), maxDescriptionLen)
 	}
 
+	red := ""
+	reset := ""
+	if useColor {
+		red = "\u001B[31m"
+		reset = "\u001B[0m"
+	}
+
 	for idx, goal := range gs {
 		rowDelta := len(gs) - idx
 		colDelta := maxDescriptionLen + 2
@@ -201,8 +223,8 @@ func main() {
 			updateStatus(rowDelta, colDelta, "working...")
 			err = goal.Achieve()
 			if err != nil {
-				updateStatus(rowDelta, colDelta, "failed")
-				fmt.Printf("        %v\n", err)
+				updateStatus(rowDelta, colDelta, fmt.Sprintf("%v%v%v", red, "failed", reset))
+				fmt.Printf("\n%v%v%v", red, err, reset)
 				return
 			} else {
 				updateStatus(rowDelta, colDelta, "done")

@@ -1,7 +1,6 @@
 package goals
 
 import (
-	"bytes"
 	"fmt"
 	"os"
 	"os/exec"
@@ -38,19 +37,11 @@ func (g RubyInstalled) IsAchieved() bool {
 }
 
 func (g RubyInstalled) Achieve() error {
-	rubyInstallCmd := exec.Command("ruby-install", "--cleanup", g.Version)
+	cmd := exec.Command("ruby-install", "--cleanup", g.Version)
 
-	var stdoutBuf, stderrBuf bytes.Buffer
-	rubyInstallCmd.Stdout = &stdoutBuf
-	rubyInstallCmd.Stderr = &stderrBuf
-
-	if err := rubyInstallCmd.Run(); err != nil {
-		return fmt.Errorf(
-			"%v:\n===[ stderr ]=======\n%v\n\n===[ stdout ]=======\n%v",
-			err,
-			stderrBuf.String(),
-			stdoutBuf.String(),
-		)
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%v\n\n%v", err, string(stdoutStderr))
 	}
 
 	return nil

@@ -1,6 +1,7 @@
 package goals
 
 import (
+	"fmt"
 	"os/exec"
 
 	"denisdefreyne.com/x/ddenv/core"
@@ -29,8 +30,10 @@ func (g NpmPackagesInstalled) IsAchieved() bool {
 
 func (g NpmPackagesInstalled) Achieve() error {
 	cmd := exec.Command("shadowenv", "exec", "--", "npm", "install")
-	if err := cmd.Run(); err != nil {
-		return err
+
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%v\n\n%v", err, string(stdoutStderr))
 	}
 
 	return nil

@@ -45,9 +45,11 @@ func (g NodeShadowenvCreated) Achieve() error {
 		return err
 	}
 
-	shadowenvTrustCmd := exec.Command("shadowenv", "trust")
-	if err := shadowenvTrustCmd.Run(); err != nil {
-		return err
+	cmd := exec.Command("shadowenv", "trust")
+
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%v\n\n%v", err, string(stdoutStderr))
 	}
 
 	return nil

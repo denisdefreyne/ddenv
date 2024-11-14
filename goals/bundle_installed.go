@@ -1,6 +1,7 @@
 package goals
 
 import (
+	"fmt"
 	"os/exec"
 
 	"denisdefreyne.com/x/ddenv/core"
@@ -29,8 +30,10 @@ func (g BundleInstalled) IsAchieved() bool {
 
 func (g BundleInstalled) Achieve() error {
 	cmd := exec.Command("shadowenv", "exec", "--", "bundle", "install")
-	if err := cmd.Run(); err != nil {
-		return err
+
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%v\n\n%v", err, string(stdoutStderr))
 	}
 
 	return nil

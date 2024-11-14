@@ -72,9 +72,11 @@ func (g HomebrewPackageInstalled) IsAchieved() bool {
 }
 
 func (g HomebrewPackageInstalled) Achieve() error {
-	brewInstallCmd := exec.Command("brew", "install", g.PackageName)
-	if err := brewInstallCmd.Run(); err != nil {
-		return err
+	cmd := exec.Command("brew", "install", g.PackageName)
+
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%v\n\n%v", err, string(stdoutStderr))
 	}
 
 	return nil

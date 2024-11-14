@@ -35,8 +35,10 @@ func (g NodeInstalled) IsAchieved() bool {
 
 func (g NodeInstalled) Achieve() error {
 	cmd := exec.Command("node-build", g.Version, g.path())
-	if err := cmd.Run(); err != nil {
-		return err
+
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%v\n\n%v", err, string(stdoutStderr))
 	}
 
 	return nil
