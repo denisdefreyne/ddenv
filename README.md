@@ -68,3 +68,7 @@ Now your local developer environment is ready to be used.
 -   <code>npm</code> installs packages from package.json using npm.
 
     e.g. `- npm`
+
+-   <code>postgresql: <var>MAJOR_VERSION</var></code> installs PostgreSQL (through Homebrew), starts it, and sets up environment variables with PostgreSQL connection details (`POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, and `POSTGRES_PORT`).
+
+    e.g. `- postgresql: 17`

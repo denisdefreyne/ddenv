@@ -1,4 +1,5 @@
 up:
+  - postgresql: 17
   - homebrew: overmind
   - homebrew: font-iosevka
   - homebrew: homebrew/cask/font-gentium-plus
