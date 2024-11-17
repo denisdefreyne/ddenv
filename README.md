@@ -9,7 +9,7 @@
 
 First, ensure you have [Homebrew](https://brew.sh/) installed, and are using a supported shell (zsh, bash, or fish).
 
-Then, tun `brew install denisdefreyne/tap/ddenv`.
+Then, run `brew install denisdefreyne/tap/ddenv`.
 
 ## Quick start
 
