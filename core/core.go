@@ -1,5 +1,7 @@
 package core
 
+import "fmt"
+
 type Goal interface {
 	Description() string
 	IsAchieved() bool
@@ -21,7 +23,9 @@ func init() {
 }
 
 func RegisterGoal(name string, fn func(value interface{}) (Goal, error)) {
-	// TODO: Prevent overwriting `name`
+	if _, ok := goalFnsByName[name]; ok {
+		panic(fmt.Sprintf("a goal named %q is already registered", name))
+	}
 
 	goalFnsByName[name] = fn
 }
