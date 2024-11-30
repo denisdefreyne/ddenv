@@ -36,5 +36,6 @@ func (g ShadowenvDirCreated) PreGoals() []core.Goal {
 func (g ShadowenvDirCreated) PostGoals() []core.Goal {
 	return []core.Goal{
 		ShadowenvDirGitIgnored{},
+		ShadowenvTrusted{},
 	}
 }
