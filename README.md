@@ -18,6 +18,8 @@ Create a `ddenv.yaml` file which contains the list of dependencies to manage. Fo
 ```yaml
 up:
   - homebrew: overmind
+  - postgres
+  - redis
   - ruby
   - bundle
   - node: 20.12.2
@@ -72,3 +74,7 @@ Now your local developer environment is ready to be used.
 -   <code>postgresql: <var>MAJOR_VERSION</var></code> installs PostgreSQL (through Homebrew), starts it, and sets up environment variables with PostgreSQL connection details (`POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, and `POSTGRES_PORT`).
 
     e.g. `- postgresql: 17`
+
+-   <code>redis</code> installs Redis (through Homebrew), starts it, and sets up environment variables with Redis connection details (`REDIS_URL`).
+
+    e.g. `- redis`

@@ -64,18 +64,19 @@ func (g PostgresqlShadowenvCreated) fileContents() []byte {
 	// TODO: Allow configuring the database prefix (not just POSTGRES_)
 
 	data := struct {
-		Version int
-		Port    int16
-		User    string
-	}{Version: g.Version, Port: 5432, User: os.Getenv("USER")}
+		Version      int
+		Port         int16
+		User         string
+		EnvVarPrefix string
+	}{Version: g.Version, Port: 5432, User: os.Getenv("USER"), EnvVarPrefix: "POSTGRES"}
 
 	// FIXME: Use `brew --prefix …` instead of hardcoding the path
 	templateContent := `(provide "postgresql" "{{ .Version }}")
 
-(env/set "POSTGRES_USER" "{{ .User }}")
-(env/set "POSTGRES_PASSWORD" "")
-(env/set "POSTGRES_HOST" "localhost")
-(env/set "POSTGRES_PORT" "{{ .Port }}")
+(env/set "{{ .EnvVarPrefix }}_USER" "{{ .User }}")
+(env/set "{{ .EnvVarPrefix }}_PASSWORD" "")
+(env/set "{{ .EnvVarPrefix }}_HOST" "localhost")
+(env/set "{{ .EnvVarPrefix }}_PORT" "{{ .Port }}")
 
 (env/prepend-to-pathlist "PATH" "/opt/homebrew/opt/postgresql@{{ .Version }}/bin")
 `

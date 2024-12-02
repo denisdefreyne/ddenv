@@ -1,7 +1,6 @@
 package goals
 
 import (
-	"encoding/json"
 	"fmt"
 	"os/exec"
 	"strings"
@@ -19,11 +18,6 @@ func init() {
 	})
 }
 
-type brewServicesListEntry struct {
-	Name   string
-	Status string
-}
-
 type PostgresqlStarted struct {
 	Version int
 }
@@ -33,7 +27,7 @@ func (g PostgresqlStarted) Description() string {
 }
 
 func (g PostgresqlStarted) IsAchieved() bool {
-	brewServicesListEntries, err := g.homebrewServiceInfoForThisPostgresqlVersion()
+	brewServicesListEntries, err := homebrewServiceInfoFor(g.homebrewPackageName())
 	if err != nil {
 		return false
 	}
@@ -48,7 +42,7 @@ func (g PostgresqlStarted) IsAchieved() bool {
 
 func (g PostgresqlStarted) Achieve() error {
 	// Find existing PostgreSQL servers of other versions
-	brewServicesListEntries, err := g.homebrewServiceList()
+	brewServicesListEntries, err := homebrewServiceList()
 	if err == nil {
 		for _, entry := range brewServicesListEntries {
 			if strings.HasPrefix(entry.Name, "postgresql@") && entry.Name != g.homebrewPackageName() {
@@ -81,40 +75,4 @@ func (g PostgresqlStarted) PostGoals() []core.Goal {
 
 func (g PostgresqlStarted) homebrewPackageName() string {
 	return fmt.Sprintf("postgresql@%v", g.Version)
-}
-
-func (g PostgresqlStarted) homebrewServiceInfoForThisPostgresqlVersion() ([]brewServicesListEntry, error) {
-	// Get raw output
-	brewServicesListCmd := exec.Command("brew", "services", "info", "--json", g.homebrewPackageName())
-	brewServicesListData, err := brewServicesListCmd.Output()
-	if err != nil {
-		return nil, err
-	}
-
-	// Parse JSON
-	var brewServicesListEntries []brewServicesListEntry
-	if err := json.Unmarshal(brewServicesListData, &brewServicesListEntries); err != nil {
-		fmt.Println(err.Error())
-		return nil, err
-	}
-
-	return brewServicesListEntries, nil
-}
-
-func (g PostgresqlStarted) homebrewServiceList() ([]brewServicesListEntry, error) {
-	// Get raw output
-	brewServicesListCmd := exec.Command("brew", "services", "list", "--json")
-	brewServicesListData, err := brewServicesListCmd.Output()
-	if err != nil {
-		return nil, err
-	}
-
-	// Parse JSON
-	var brewServicesListEntries []brewServicesListEntry
-	if err := json.Unmarshal(brewServicesListData, &brewServicesListEntries); err != nil {
-		fmt.Println(err.Error())
-		return nil, err
-	}
-
-	return brewServicesListEntries, nil
 }
