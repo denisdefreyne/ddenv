@@ -44,14 +44,16 @@ func ReadConfig() (Config, error) {
 
 // Returns a slice with all duplicates removed. Only the first unique element is
 // retained.
-func removeDuplicates[T comparable](input []T) []T {
-	res := make([]T, 0, len(input))
-	seen := make(map[T]bool, len(input))
+func removeDuplicateGoals(input []core.Goal) []core.Goal {
+	res := make([]core.Goal, 0, len(input))
+	seen := make(map[string]bool, len(input))
 
-	for _, element := range input {
-		if !seen[element] {
-			res = append(res, element)
-			seen[element] = true
+	for _, goal := range input {
+		goalHashIdentity := goal.HashIdentity()
+
+		if !seen[goalHashIdentity] {
+			res = append(res, goal)
+			seen[goalHashIdentity] = true
 		}
 	}
 
@@ -111,7 +113,7 @@ func ReadGoals() ([]core.Goal, error) {
 	}
 
 	// Remove duplicate goals
-	uniqueGoals := removeDuplicates(flattenedGoals)
+	uniqueGoals := removeDuplicateGoals(flattenedGoals)
 
 	return uniqueGoals, nil
 }

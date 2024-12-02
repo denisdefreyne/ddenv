@@ -21,6 +21,10 @@ func (g RedisStarted) Description() string {
 	return fmt.Sprintf("Starting Redis")
 }
 
+func (g RedisStarted) HashIdentity() string {
+	return fmt.Sprintf("RedisStarted %v", g)
+}
+
 func (g RedisStarted) IsAchieved() bool {
 	brewServicesListEntries, err := homebrew.ServiceInfoFor("redis")
 	if err != nil {

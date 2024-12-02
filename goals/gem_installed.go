@@ -14,6 +14,10 @@ func (g GemInstalled) Description() string {
 	return fmt.Sprintf("Installing Ruby gem %v", g.Name)
 }
 
+func (g GemInstalled) HashIdentity() string {
+	return fmt.Sprintf("GemInstalled %v", g)
+}
+
 func (g GemInstalled) IsAchieved() bool {
 	// Get raw output
 	cmd := exec.Command("shadowenv", "exec", "--", "gem", "list", "-i", fmt.Sprintf("^%v$", g.Name))

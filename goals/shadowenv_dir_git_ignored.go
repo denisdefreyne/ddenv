@@ -2,6 +2,7 @@ package goals
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 )
 
@@ -15,6 +16,10 @@ type ShadowenvDirGitIgnored struct {
 
 func (g ShadowenvDirGitIgnored) Description() string {
 	return "Adding Shadowenv dir to .gitignore"
+}
+
+func (g ShadowenvDirGitIgnored) HashIdentity() string {
+	return fmt.Sprintf("ShadowenvDirGitIgnored %v", g)
 }
 
 func (g ShadowenvDirGitIgnored) IsAchieved() bool {

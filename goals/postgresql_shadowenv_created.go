@@ -20,6 +20,10 @@ func (g PostgresqlShadowenvCreated) Description() string {
 	return fmt.Sprintf("Adding PostgreSQL %v to Shadowenv", g.Version)
 }
 
+func (g PostgresqlShadowenvCreated) HashIdentity() string {
+	return fmt.Sprintf("PostgresqlShadowenvCreated %v", g)
+}
+
 func (g PostgresqlShadowenvCreated) IsAchieved() bool {
 	_, err := os.Lstat(PostgresqlShadowenvCreated_Path)
 	if err != nil {

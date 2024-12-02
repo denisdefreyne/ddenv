@@ -4,6 +4,7 @@ import "fmt"
 
 type Goal interface {
 	Description() string
+	HashIdentity() string
 	IsAchieved() bool
 	Achieve() error
 }

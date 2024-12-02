@@ -28,6 +28,10 @@ func (g NodeInstalled) Description() string {
 	return fmt.Sprintf("Installing Node %v", g.Version)
 }
 
+func (g NodeInstalled) HashIdentity() string {
+	return fmt.Sprintf("NodeInstalled %v", g)
+}
+
 func (g NodeInstalled) IsAchieved() bool {
 	_, err := os.Lstat(g.path())
 	return err == nil

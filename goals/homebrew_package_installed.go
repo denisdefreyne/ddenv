@@ -43,6 +43,10 @@ func (g HomebrewPackageInstalled) Description() string {
 	return fmt.Sprintf("Installing Homebrew package ‘%v’", g.PackageName)
 }
 
+func (g HomebrewPackageInstalled) HashIdentity() string {
+	return fmt.Sprintf("HomebrewPackageInstalled %v", g)
+}
+
 func (g HomebrewPackageInstalled) IsAchieved() bool {
 	// Get raw output
 	brewInfoCmd := exec.Command("brew", "info", "--json=v2", g.PackageName)

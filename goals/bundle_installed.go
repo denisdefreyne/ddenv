@@ -20,6 +20,10 @@ func (g BundleInstalled) Description() string {
 	return "Installing bundle"
 }
 
+func (g BundleInstalled) HashIdentity() string {
+	return fmt.Sprintf("BundleInstalled %v", g)
+}
+
 func (g BundleInstalled) IsAchieved() bool {
 	// Get raw output
 	cmd := exec.Command("shadowenv", "exec", "--", "bundle", "check")

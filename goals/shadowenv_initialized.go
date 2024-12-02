@@ -19,6 +19,10 @@ func (g ShadowenvInitialized) Description() string {
 	return "Adding Shadowenv to shell"
 }
 
+func (g ShadowenvInitialized) HashIdentity() string {
+	return fmt.Sprintf("ShadowenvInitialized %v", g)
+}
+
 func (g ShadowenvInitialized) IsAchieved() bool {
 	return g.isAchievedForFishShell() && g.isAchievedForBashShell() && g.isAchievedForZshShell()
 }

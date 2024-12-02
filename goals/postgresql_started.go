@@ -27,6 +27,10 @@ func (g PostgresqlStarted) Description() string {
 	return fmt.Sprintf("Starting PostgreSQL %v", g.Version)
 }
 
+func (g PostgresqlStarted) HashIdentity() string {
+	return fmt.Sprintf("PostgresqlStarted %v", g)
+}
+
 func (g PostgresqlStarted) IsAchieved() bool {
 	brewServicesListEntries, err := homebrew.ServiceInfoFor(g.homebrewPackageName())
 	if err != nil {

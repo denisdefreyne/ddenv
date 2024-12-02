@@ -21,6 +21,10 @@ func (g NodeShadowenvCreated) Description() string {
 	return fmt.Sprintf("Adding Node %v to Shadowenv", g.Version)
 }
 
+func (g NodeShadowenvCreated) HashIdentity() string {
+	return fmt.Sprintf("NodeShadowenvCreated %v", g)
+}
+
 func (g NodeShadowenvCreated) IsAchieved() bool {
 	_, err := os.Lstat(NodeShadowenvCreated_Path)
 	if err != nil {

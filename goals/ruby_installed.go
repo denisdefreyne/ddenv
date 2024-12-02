@@ -31,6 +31,10 @@ func (g RubyInstalled) Description() string {
 	return fmt.Sprintf("Installing Ruby %v", g.Version)
 }
 
+func (g RubyInstalled) HashIdentity() string {
+	return fmt.Sprintf("RubyInstalled %v", g)
+}
+
 func (g RubyInstalled) IsAchieved() bool {
 	_, err := os.Lstat(g.path())
 	return err == nil

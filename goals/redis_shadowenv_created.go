@@ -19,6 +19,10 @@ func (g RedisShadowenvCreated) Description() string {
 	return fmt.Sprintf("Adding Redis to Shadowenv")
 }
 
+func (g RedisShadowenvCreated) HashIdentity() string {
+	return fmt.Sprintf("RedisShadowenvCreated %v", g)
+}
+
 func (g RedisShadowenvCreated) IsAchieved() bool {
 	_, err := os.Lstat(RedisShadowenvCreated_Path)
 	if err != nil {

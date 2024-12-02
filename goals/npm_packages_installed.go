@@ -20,6 +20,10 @@ func (g NpmPackagesInstalled) Description() string {
 	return "Installing npm packages"
 }
 
+func (g NpmPackagesInstalled) HashIdentity() string {
+	return fmt.Sprintf("NpmPackagesInstalled %v", g)
+}
+
 func (g NpmPackagesInstalled) IsAchieved() bool {
 	// Get raw output
 	cmd := exec.Command("shadowenv", "exec", "--", "npx", "check-dependencies")

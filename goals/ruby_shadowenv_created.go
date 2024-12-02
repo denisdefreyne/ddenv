@@ -21,6 +21,10 @@ func (g RubyShadowenvCreated) Description() string {
 	return fmt.Sprintf("Adding Ruby %v to Shadowenv", g.Version)
 }
 
+func (g RubyShadowenvCreated) HashIdentity() string {
+	return fmt.Sprintf("RubyShadowenvCreated %v", g)
+}
+
 func (g RubyShadowenvCreated) IsAchieved() bool {
 	_, err := os.Lstat(RubyShadowenvCreated_Path)
 	if err != nil {

@@ -1,6 +1,7 @@
 package goals
 
 import (
+	"fmt"
 	"os"
 
 	"denisdefreyne.com/x/ddenv/core"
@@ -8,13 +9,14 @@ import (
 
 const ShadowenvDirCreated_Path = ".shadowenv.d"
 
-type ShadowenvDirCreated struct {
-	Version string
-	Path    string
-}
+type ShadowenvDirCreated struct{}
 
 func (g ShadowenvDirCreated) Description() string {
 	return "Creating Shadowenv dir"
+}
+
+func (g ShadowenvDirCreated) HashIdentity() string {
+	return fmt.Sprintf("ShadowenvDirCreated %v", g)
 }
 
 func (g ShadowenvDirCreated) IsAchieved() bool {
