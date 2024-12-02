@@ -5,6 +5,7 @@ import (
 	"os/exec"
 
 	"denisdefreyne.com/x/ddenv/core"
+	"denisdefreyne.com/x/ddenv/homebrew"
 )
 
 func init() {
@@ -21,7 +22,7 @@ func (g RedisStarted) Description() string {
 }
 
 func (g RedisStarted) IsAchieved() bool {
-	brewServicesListEntries, err := homebrewServiceInfoFor("redis")
+	brewServicesListEntries, err := homebrew.ServiceInfoFor("redis")
 	if err != nil {
 		return false
 	}

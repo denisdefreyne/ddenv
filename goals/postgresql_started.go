@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"denisdefreyne.com/x/ddenv/core"
+	"denisdefreyne.com/x/ddenv/homebrew"
 )
 
 func init() {
@@ -27,7 +28,7 @@ func (g PostgresqlStarted) Description() string {
 }
 
 func (g PostgresqlStarted) IsAchieved() bool {
-	brewServicesListEntries, err := homebrewServiceInfoFor(g.homebrewPackageName())
+	brewServicesListEntries, err := homebrew.ServiceInfoFor(g.homebrewPackageName())
 	if err != nil {
 		return false
 	}
@@ -42,7 +43,7 @@ func (g PostgresqlStarted) IsAchieved() bool {
 
 func (g PostgresqlStarted) Achieve() error {
 	// Find existing PostgreSQL servers of other versions
-	brewServicesListEntries, err := homebrewServiceList()
+	brewServicesListEntries, err := homebrew.ServiceList()
 	if err == nil {
 		for _, entry := range brewServicesListEntries {
 			if strings.HasPrefix(entry.Name, "postgresql@") && entry.Name != g.homebrewPackageName() {

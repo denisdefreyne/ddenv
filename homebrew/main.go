@@ -1,4 +1,4 @@
-package goals
+package homebrew
 
 import (
 	"encoding/json"
@@ -6,14 +6,12 @@ import (
 	"os/exec"
 )
 
-// TODO: Move all this into a `homebrew` package or so
-
-type brewServicesListEntry struct {
+type ServicesListEntry struct {
 	Name   string
 	Status string
 }
 
-func homebrewServiceList() ([]brewServicesListEntry, error) {
+func ServiceList() ([]ServicesListEntry, error) {
 	// Get raw output
 	brewServicesListCmd := exec.Command("brew", "services", "list", "--json")
 	brewServicesListData, err := brewServicesListCmd.Output()
@@ -22,7 +20,7 @@ func homebrewServiceList() ([]brewServicesListEntry, error) {
 	}
 
 	// Parse JSON
-	var brewServicesListEntries []brewServicesListEntry
+	var brewServicesListEntries []ServicesListEntry
 	if err := json.Unmarshal(brewServicesListData, &brewServicesListEntries); err != nil {
 		fmt.Println(err.Error())
 		return nil, err
@@ -31,7 +29,7 @@ func homebrewServiceList() ([]brewServicesListEntry, error) {
 	return brewServicesListEntries, nil
 }
 
-func homebrewServiceInfoFor(packageName string) ([]brewServicesListEntry, error) {
+func ServiceInfoFor(packageName string) ([]ServicesListEntry, error) {
 	// Get raw output
 	brewServicesListCmd := exec.Command("brew", "services", "info", "--json", packageName)
 	brewServicesListData, err := brewServicesListCmd.Output()
@@ -40,7 +38,7 @@ func homebrewServiceInfoFor(packageName string) ([]brewServicesListEntry, error)
 	}
 
 	// Parse JSON
-	var brewServicesListEntries []brewServicesListEntry
+	var brewServicesListEntries []ServicesListEntry
 	if err := json.Unmarshal(brewServicesListData, &brewServicesListEntries); err != nil {
 		fmt.Println(err.Error())
 		return nil, err
