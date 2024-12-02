@@ -11,16 +11,51 @@ import (
 
 func init() {
 	core.RegisterGoal("postgresql", func(value interface{}) (core.Goal, error) {
-		if postgresqlVersion, ok := value.(int); ok {
-			return PostgresqlStarted{Version: postgresqlVersion}, nil
-		} else {
-			return nil, fmt.Errorf("expected string version")
+		detailsMap, ok := value.(map[interface{}]interface{})
+		if !ok {
+			return nil, fmt.Errorf("expected details map")
 		}
+
+		// Get version
+		version, ok := detailsMap["version"]
+		if !ok {
+			return nil, fmt.Errorf("expected version")
+		}
+		intVersion, ok := version.(int)
+		if !ok {
+			return nil, fmt.Errorf("expected integer version")
+		}
+
+		// Get env
+		rawEnv, ok := detailsMap["env"]
+		env := make(map[string]string)
+		if ok {
+			if typedEnv, ok := rawEnv.(map[interface{}]interface{}); !ok {
+				return nil, fmt.Errorf("expected env to be a map")
+			} else {
+				for rawKey, rawValue := range typedEnv {
+					if key, ok := rawKey.(string); ok {
+						if value, ok := rawValue.(string); ok {
+							env[key] = value
+						} else {
+							return nil, fmt.Errorf("expected env values to be strings")
+						}
+					} else {
+						return nil, fmt.Errorf("expected env keys to be strings")
+					}
+				}
+			}
+		}
+
+		g := PostgresqlStarted{Version: intVersion, Env: env}
+
+		return g, nil
 	})
 }
 
 type PostgresqlStarted struct {
 	Version int
+	Env     map[string]string
 }
 
 func (g PostgresqlStarted) Description() string {
@@ -74,7 +109,7 @@ func (g PostgresqlStarted) PreGoals() []core.Goal {
 
 func (g PostgresqlStarted) PostGoals() []core.Goal {
 	return []core.Goal{
-		PostgresqlShadowenvCreated{Version: g.Version},
+		PostgresqlShadowenvCreated{Version: g.Version, Env: g.Env},
 	}
 }
 

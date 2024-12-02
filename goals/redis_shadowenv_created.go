@@ -13,6 +13,7 @@ import (
 const RedisShadowenvCreated_Path = ".shadowenv.d/400_redis.lisp"
 
 type RedisShadowenvCreated struct {
+	Env map[string]string
 }
 
 func (g RedisShadowenvCreated) Description() string {
@@ -64,15 +65,45 @@ func (g RedisShadowenvCreated) PreGoals() []core.Goal {
 }
 
 func (g RedisShadowenvCreated) fileContents() []byte {
-	// TODO: Allow configuring the database prefix (not just REDIS_)
+	dataForSingleLines := struct {
+		Host string
+		Port int16
+	}{
+		Host: "localhost",
+		Port: 6379,
+	}
 
-	data := struct {
-		EnvVarPrefix string
-	}{EnvVarPrefix: "REDIS"}
+	// Evaluate each template
+	compiledEnvVarMap := make(map[string]string)
+	for envName, envValueTemplate := range g.Env {
+		// Template line
+		tmpl, err := template.New("shadowenvLine").Parse(envValueTemplate)
+		// TODO: handle err gracefully
+		if err != nil {
+			panic(err)
+		}
 
+		// Compile line
+		var b bytes.Buffer
+		err = tmpl.Execute(&b, dataForSingleLines)
+		if err != nil {
+			panic(err)
+		}
+
+		compiledEnvVarMap[envName] = string(b.Bytes())
+	}
+
+	dataForEntireTemplate := struct {
+		EnvVars map[string]string
+	}{
+		EnvVars: compiledEnvVarMap,
+	}
+
+	// FIXME: Use `brew --prefix …` instead of hardcoding the path
 	templateContent := `(provide "redis")
-
-(env/set "{{ .EnvVarPrefix }}_URL" "redis://@127.0.0.1:6379/0")
+{{ range $key, $value := .EnvVars }}
+(env/set "{{ $key }}" "{{ $value }}")
+{{- end }}
 `
 
 	tmpl, err := template.New("shadowenv").Parse(templateContent)
@@ -81,7 +112,7 @@ func (g RedisShadowenvCreated) fileContents() []byte {
 	}
 
 	var b bytes.Buffer
-	err = tmpl.Execute(&b, data)
+	err = tmpl.Execute(&b, dataForEntireTemplate)
 	if err != nil {
 		panic(err)
 	}

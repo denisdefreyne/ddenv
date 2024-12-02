@@ -88,16 +88,21 @@ Now your local developer environment is ready to be used.
       - npm
     ```
 
--   <code>postgresql: <var>MAJOR_VERSION</var></code> installs PostgreSQL (through Homebrew), starts it, and sets up environment variables with PostgreSQL connection details (`POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, and `POSTGRES_PORT`). Example:
+-   <code>postgresql: <var>…</var></code> installs the given version of PostgreSQL (the <var>version</var> key), starts it, and sets up environment variables based on the <var>env</var> key (`User`, `Password`, `Host` and `Port` are available as keys). Example:
 
     ```yaml
     up:
-      - postgresql: 17
+      - postgresql:
+          version: 17
+          env:
+            DB_URL: "postgres://{{ .User }}:{{ .Password }}@{{ .Host }}:{{ .Port }}/mydb"
     ```
 
--   <code>redis</code> installs Redis (through Homebrew), starts it, and sets up environment variables with Redis connection details (`REDIS_URL`). Example:
+-   <code>redis: <var>…</var></code> installs Redis, starts it, and sets up environment variables based on the <var>env</var> key (`Host` and `Port` are available as keys). Example:
 
     ```yaml
     up:
-      - redis
+      - redis:
+          env:
+            REDIS_URL: "redis://{{ .Host }}:{{ .Port }}/0"
     ```

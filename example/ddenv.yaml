@@ -1,9 +1,16 @@
 up:
-  - postgresql: 17
-  - redis
+  - postgresql:
+      version: 17
+      env:
+        DB_URL: "postgres://{{ .User }}:{{ .Password }}@{{ .Host }}:{{ .Port }}/mydb"
+        POSTGRES_HOST: "{{ .Host }}"
+        POSTGRES_PORT: "{{ .Port }}"
+        POSTGRES_USER: "{{ .User }}"
+        POSTGRES_PASS: "{{ .Password }}"
+  - redis:
+      env:
+        REDIS_URL: "redis://{{ .Host }}:{{ .Port }}/0"
   - homebrew: overmind
-  - homebrew: font-iosevka
-  - homebrew: homebrew/cask/font-gentium-plus
   - ruby
   - bundle
   - node: 20.12.2

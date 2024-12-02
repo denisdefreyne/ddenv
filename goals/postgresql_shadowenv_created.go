@@ -14,6 +14,7 @@ const PostgresqlShadowenvCreated_Path = ".shadowenv.d/300_postgresql.lisp"
 
 type PostgresqlShadowenvCreated struct {
 	Version int
+	Env     map[string]string
 }
 
 func (g PostgresqlShadowenvCreated) Description() string {
@@ -65,22 +66,53 @@ func (g PostgresqlShadowenvCreated) PreGoals() []core.Goal {
 }
 
 func (g PostgresqlShadowenvCreated) fileContents() []byte {
-	// TODO: Allow configuring the database prefix (not just POSTGRES_)
+	dataForSingleLines := struct {
+		Version  int
+		Host     string
+		Port     int16
+		User     string
+		Password string
+	}{
+		Version:  g.Version,
+		Host:     "localhost",
+		Port:     5432,
+		User:     os.Getenv("USER"),
+		Password: "",
+	}
 
-	data := struct {
-		Version      int
-		Port         int16
-		User         string
-		EnvVarPrefix string
-	}{Version: g.Version, Port: 5432, User: os.Getenv("USER"), EnvVarPrefix: "POSTGRES"}
+	// Evaluate each template
+	compiledEnvVarMap := make(map[string]string)
+	for envName, envValueTemplate := range g.Env {
+		// Template line
+		tmpl, err := template.New("shadowenvLine").Parse(envValueTemplate)
+		// TODO: handle err gracefully
+		if err != nil {
+			panic(err)
+		}
+
+		// Compile line
+		var b bytes.Buffer
+		err = tmpl.Execute(&b, dataForSingleLines)
+		if err != nil {
+			panic(err)
+		}
+
+		compiledEnvVarMap[envName] = string(b.Bytes())
+	}
+
+	dataForEntireTemplate := struct {
+		Version int
+		EnvVars map[string]string
+	}{
+		Version: g.Version,
+		EnvVars: compiledEnvVarMap,
+	}
 
 	// FIXME: Use `brew --prefix …` instead of hardcoding the path
 	templateContent := `(provide "postgresql" "{{ .Version }}")
-
-(env/set "{{ .EnvVarPrefix }}_USER" "{{ .User }}")
-(env/set "{{ .EnvVarPrefix }}_PASSWORD" "")
-(env/set "{{ .EnvVarPrefix }}_HOST" "localhost")
-(env/set "{{ .EnvVarPrefix }}_PORT" "{{ .Port }}")
+{{ range $key, $value := .EnvVars }}
+(env/set "{{ $key }}" "{{ $value }}")
+{{- end }}
 
 (env/prepend-to-pathlist "PATH" "/opt/homebrew/opt/postgresql@{{ .Version }}/bin")
 `
@@ -91,7 +123,7 @@ func (g PostgresqlShadowenvCreated) fileContents() []byte {
 	}
 
 	var b bytes.Buffer
-	err = tmpl.Execute(&b, data)
+	err = tmpl.Execute(&b, dataForEntireTemplate)
 	if err != nil {
 		panic(err)
 	}
