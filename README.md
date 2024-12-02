@@ -51,30 +51,53 @@ Now your local developer environment is ready to be used.
 
 ## Goals
 
--   <code>homebrew: <var>PACKAGENAME</var></code> installs the Homebrew package with the given name.
+-   <code>homebrew: <var>PACKAGENAME</var></code> installs the Homebrew package with the given name. Example:
 
-    e.g. `- homebrew: overmind`
+    ```yaml
+    up:
+      - homebrew: overmind
+    ```
 
--   <code>ruby</code> installs Ruby (with the version specified in the `.ruby-version` file).
+-   <code>ruby</code> installs Ruby (with the version specified in the `.ruby-version` file). Example:
 
-    e.g. `- ruby`
+    ```yaml
+    up:
+      - ruby
+    ```
 
--   <code>bundle</code> runs `bundle install`.
+-   <code>bundle</code> runs `bundle install`. Example:
 
-    e.g. `- bundle`
+    ```yaml
+    up:
+      - ruby
+      - bundle
+    ```
 
--   <code>node: <var>VERSION</var></code> installs the give Node.js version.
+-   <code>node: <var>VERSION</var></code> installs the give Node.js version. Example:
 
-    e.g. `- node: 22.11.0`
+    ```yaml
+    up:
+      - node: 22.11.0
+    ```
 
--   <code>npm</code> installs packages from package.json using npm.
+-   <code>npm</code> installs packages from package.json using npm. Example:
 
-    e.g. `- npm`
+    ```yaml
+    up:
+      - node: 22.11.0
+      - npm
+    ```
 
--   <code>postgresql: <var>MAJOR_VERSION</var></code> installs PostgreSQL (through Homebrew), starts it, and sets up environment variables with PostgreSQL connection details (`POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, and `POSTGRES_PORT`).
+-   <code>postgresql: <var>MAJOR_VERSION</var></code> installs PostgreSQL (through Homebrew), starts it, and sets up environment variables with PostgreSQL connection details (`POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, and `POSTGRES_PORT`). Example:
 
-    e.g. `- postgresql: 17`
+    ```yaml
+    up:
+      - postgresql: 17
+    ```
 
--   <code>redis</code> installs Redis (through Homebrew), starts it, and sets up environment variables with Redis connection details (`REDIS_URL`).
+-   <code>redis</code> installs Redis (through Homebrew), starts it, and sets up environment variables with Redis connection details (`REDIS_URL`). Example:
 
-    e.g. `- redis`
+    ```yaml
+    up:
+      - redis
+    ```
