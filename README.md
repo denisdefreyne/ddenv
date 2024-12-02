@@ -18,8 +18,13 @@ Create a `ddenv.yaml` file which contains the list of dependencies to manage. Fo
 ```yaml
 up:
   - homebrew: overmind
-  - postgres
-  - redis
+  - postgresql:
+      version: 17
+      env:
+        DB_URL: "postgres://{{ .User }}:{{ .Password }}@{{ .Host }}:{{ .Port }}/mydb"
+  - redis:
+      env:
+        REDIS_URL: "redis://{{ .Host }}:{{ .Port }}/0"
   - ruby
   - bundle
   - node: 20.12.2
