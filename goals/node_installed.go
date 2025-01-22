@@ -6,16 +6,18 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+	"strings"
 
 	"denisdefreyne.com/x/ddenv/core"
 )
 
 func init() {
 	core.RegisterGoal("node", func(value interface{}) (core.Goal, error) {
-		if nodeVersion, ok := value.(string); ok {
-			return NodeInstalled{Version: nodeVersion}, nil
+		if nodeVersionBytes, err := os.ReadFile(".node-version"); err != nil {
+			return nil, fmt.Errorf("expected .node-version to exist")
 		} else {
-			return nil, fmt.Errorf("expected string version")
+			nodeVersionString := strings.TrimSpace(string(nodeVersionBytes))
+			return NodeInstalled{Version: nodeVersionString}, nil
 		}
 	})
 }

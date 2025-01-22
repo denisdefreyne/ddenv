@@ -13,5 +13,5 @@ up:
   - homebrew: overmind
   - ruby
   - bundle
-  - node: 20.12.2
+  - node
   - npm

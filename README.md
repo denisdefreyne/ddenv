@@ -13,7 +13,7 @@ Then, run `brew install denisdefreyne/tap/ddenv`.
 
 ## Quick start
 
-Create a `ddenv.yaml` file which contains the list of dependencies to manage. For example:[^ruby-version]
+Create a `ddenv.yaml` file which contains the list of dependencies to manage. For example:[^ruby-and-node-version]
 
 ```yaml
 up:
@@ -27,11 +27,11 @@ up:
         REDIS_URL: "redis://{{ .Host }}:{{ .Port }}/0"
   - ruby
   - bundle
-  - node: 20.12.2
+  - node
   - npm
 ```
 
-[^ruby-version]: This example relies on a `.ruby-version` file being present, e.g. with the file contents `3.3.6`.
+[^ruby-and-node-version]: This example relies on a `.ruby-version` file being present, e.g. with the file contents `3.3.6`, and a `.node-version` file, e.g. with the file contents `20.12.2`.
 
 Then, run `ddenv`:
 
@@ -78,18 +78,18 @@ Now your local developer environment is ready to be used.
       - bundle
     ```
 
--   <code>node: <var>VERSION</var></code> installs the give Node.js version. Example:
+-   <code>node</code> installs Node.js (with the version specified in the `.node-version` file). Example:
 
     ```yaml
     up:
-      - node: 22.11.0
+      - node
     ```
 
 -   <code>npm</code> installs packages from package.json using npm. Example:
 
     ```yaml
     up:
-      - node: 22.11.0
+      - node
       - npm
     ```
 
