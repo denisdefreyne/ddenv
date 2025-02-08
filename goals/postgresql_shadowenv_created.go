@@ -61,7 +61,7 @@ func (g PostgresqlShadowenvCreated) Achieve() error {
 
 func (g PostgresqlShadowenvCreated) PreGoals() []core.Goal {
 	return []core.Goal{
-		ShadowenvDirCreated{},
+		ShadowenvSetUp{},
 	}
 }
 

@@ -61,7 +61,7 @@ func (g NodeShadowenvCreated) Achieve() error {
 
 func (g NodeShadowenvCreated) PreGoals() []core.Goal {
 	return []core.Goal{
-		ShadowenvDirCreated{},
+		ShadowenvSetUp{},
 	}
 }
 

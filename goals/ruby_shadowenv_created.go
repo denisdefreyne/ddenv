@@ -61,7 +61,7 @@ func (g RubyShadowenvCreated) Achieve() error {
 
 func (g RubyShadowenvCreated) PreGoals() []core.Goal {
 	return []core.Goal{
-		ShadowenvDirCreated{},
+		ShadowenvSetUp{},
 	}
 }
 

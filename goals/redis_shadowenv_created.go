@@ -60,7 +60,7 @@ func (g RedisShadowenvCreated) Achieve() error {
 
 func (g RedisShadowenvCreated) PreGoals() []core.Goal {
 	return []core.Goal{
-		ShadowenvDirCreated{},
+		ShadowenvSetUp{},
 	}
 }
 
