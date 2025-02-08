@@ -43,7 +43,7 @@ func (g BundleInstalled) Achieve() error {
 	return nil
 }
 
-func (g BundleInstalled) PreGoals() []core.Goal {
+func (g BundleInstalled) SubGoals() []core.Goal {
 	return []core.Goal{
 		GemInstalled{Name: "bundler"},
 	}

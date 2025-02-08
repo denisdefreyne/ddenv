@@ -7,21 +7,9 @@ import (
 	"os/user"
 	"path/filepath"
 	"regexp"
-	"strings"
 
 	"denisdefreyne.com/x/ddenv/core"
 )
-
-func init() {
-	core.RegisterGoal("ruby", func(value interface{}) (core.Goal, error) {
-		if rubyVersionBytes, err := os.ReadFile(".ruby-version"); err != nil {
-			return nil, fmt.Errorf("expected .ruby-version to exist")
-		} else {
-			rubyVersionString := strings.TrimSpace(string(rubyVersionBytes))
-			return RubyInstalled{Version: rubyVersionString}, nil
-		}
-	})
-}
 
 type RubyInstalled struct {
 	Version string
@@ -51,15 +39,9 @@ func (g RubyInstalled) Achieve() error {
 	return nil
 }
 
-func (g RubyInstalled) PreGoals() []core.Goal {
+func (g RubyInstalled) SubGoals() []core.Goal {
 	return []core.Goal{
 		HomebrewPackageInstalled{PackageName: "ruby-install"},
-	}
-}
-
-func (g RubyInstalled) PostGoals() []core.Goal {
-	return []core.Goal{
-		RubyShadowenvCreated{Version: g.Version, Path: g.path()},
 	}
 }
 

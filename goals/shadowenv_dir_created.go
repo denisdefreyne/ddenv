@@ -3,8 +3,6 @@ package goals
 import (
 	"fmt"
 	"os"
-
-	"denisdefreyne.com/x/ddenv/core"
 )
 
 const ShadowenvDirCreated_Path = ".shadowenv.d"
@@ -27,17 +25,4 @@ func (g ShadowenvDirCreated) IsAchieved() bool {
 func (g ShadowenvDirCreated) Achieve() error {
 	err := os.Mkdir(ShadowenvDirCreated_Path, 0755)
 	return err
-}
-
-func (g ShadowenvDirCreated) PreGoals() []core.Goal {
-	return []core.Goal{
-		ShadowenvInitialized{},
-	}
-}
-
-func (g ShadowenvDirCreated) PostGoals() []core.Goal {
-	return []core.Goal{
-		ShadowenvDirGitIgnored{},
-		ShadowenvTrusted{},
-	}
 }

@@ -59,9 +59,9 @@ func (g NodeShadowenvCreated) Achieve() error {
 	return nil
 }
 
-func (g NodeShadowenvCreated) PreGoals() []core.Goal {
+func (g NodeShadowenvCreated) SubGoals() []core.Goal {
 	return []core.Goal{
-		ShadowenvDirCreated{},
+		ShadowenvSetUp{},
 	}
 }
 

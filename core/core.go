@@ -5,16 +5,15 @@ import "fmt"
 type Goal interface {
 	Description() string
 	HashIdentity() string
+}
+
+type WithAchieve interface {
 	IsAchieved() bool
 	Achieve() error
 }
 
-type WithPreGoals interface {
-	PreGoals() []Goal
-}
-
-type WithPostGoals interface {
-	PostGoals() []Goal
+type WithSubGoals interface {
+	SubGoals() []Goal
 }
 
 var goalFnsByName map[string]func(value interface{}) (Goal, error)

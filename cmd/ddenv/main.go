@@ -119,19 +119,13 @@ func ReadGoals() ([]core.Goal, error) {
 }
 
 func flattenGoals(out []core.Goal, inGoal core.Goal) []core.Goal {
-	if withPreGoals, ok := inGoal.(core.WithPreGoals); ok {
-		for _, g := range withPreGoals.PreGoals() {
+	if withSubGoals, ok := inGoal.(core.WithSubGoals); ok {
+		for _, g := range withSubGoals.SubGoals() {
 			out = flattenGoals(out, g)
 		}
 	}
 
 	out = append(out, inGoal)
-
-	if withPostGoals, ok := inGoal.(core.WithPostGoals); ok {
-		for _, g := range withPostGoals.PostGoals() {
-			out = flattenGoals(out, g)
-		}
-	}
 
 	return out
 }
@@ -217,13 +211,18 @@ func main() {
 		colDelta := maxDescriptionLen + 2
 
 		updateStatus(rowDelta, colDelta, "checking...")
-		isAchieved := goal.IsAchieved()
+		var isAchieved = true
+		if withAchieve, ok := goal.(core.WithAchieve); ok {
+			isAchieved = withAchieve.IsAchieved()
+		}
 
 		if isAchieved {
 			updateStatus(rowDelta, colDelta, "skipped")
 		} else {
 			updateStatus(rowDelta, colDelta, "working...")
-			err = goal.Achieve()
+			if withAchieve, ok := goal.(core.WithAchieve); ok {
+				err = withAchieve.Achieve()
+			}
 			if err != nil {
 				updateStatus(rowDelta, colDelta, fmt.Sprintf("%v%v%v", red, "failed", reset))
 				fmt.Printf("\n%v%v%v", red, err, reset)

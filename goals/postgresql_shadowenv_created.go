@@ -59,9 +59,9 @@ func (g PostgresqlShadowenvCreated) Achieve() error {
 	return nil
 }
 
-func (g PostgresqlShadowenvCreated) PreGoals() []core.Goal {
+func (g PostgresqlShadowenvCreated) SubGoals() []core.Goal {
 	return []core.Goal{
-		ShadowenvDirCreated{},
+		ShadowenvSetUp{},
 	}
 }
 
