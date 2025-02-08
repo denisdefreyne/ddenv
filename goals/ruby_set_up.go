@@ -14,24 +14,24 @@ func init() {
 			return nil, fmt.Errorf("expected .ruby-version to exist")
 		} else {
 			rubyVersionString := strings.TrimSpace(string(rubyVersionBytes))
-			return RubyInstalledAndAvailable{Version: rubyVersionString}, nil
+			return RubySetUp{Version: rubyVersionString}, nil
 		}
 	})
 }
 
-type RubyInstalledAndAvailable struct {
+type RubySetUp struct {
 	Version string
 }
 
-func (g RubyInstalledAndAvailable) Description() string {
+func (g RubySetUp) Description() string {
 	return fmt.Sprintf("Setting up Ruby %v", g.Version)
 }
 
-func (g RubyInstalledAndAvailable) HashIdentity() string {
-	return fmt.Sprintf("RubyInstalledAndAvailable %v", g)
+func (g RubySetUp) HashIdentity() string {
+	return fmt.Sprintf("RubySetUp %v", g)
 }
 
-func (g RubyInstalledAndAvailable) PreGoals() []core.Goal {
+func (g RubySetUp) PreGoals() []core.Goal {
 	rubyInstalledGoal := RubyInstalled{Version: g.Version}
 
 	return []core.Goal{
