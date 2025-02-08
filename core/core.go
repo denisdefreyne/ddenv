@@ -5,6 +5,9 @@ import "fmt"
 type Goal interface {
 	Description() string
 	HashIdentity() string
+}
+
+type WithAchieve interface {
 	IsAchieved() bool
 	Achieve() error
 }

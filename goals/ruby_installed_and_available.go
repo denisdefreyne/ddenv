@@ -31,16 +31,6 @@ func (g RubyInstalledAndAvailable) HashIdentity() string {
 	return fmt.Sprintf("RubyInstalledAndAvailable %v", g)
 }
 
-func (g RubyInstalledAndAvailable) IsAchieved() bool {
-	// TODO: weird non-goal
-	return false
-}
-
-func (g RubyInstalledAndAvailable) Achieve() error {
-	// TODO: weird non-goal
-	return nil
-}
-
 func (g RubyInstalledAndAvailable) PreGoals() []core.Goal {
 	rubyInstalledGoal := RubyInstalled{Version: g.Version}
 

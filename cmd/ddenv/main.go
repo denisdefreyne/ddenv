@@ -217,13 +217,18 @@ func main() {
 		colDelta := maxDescriptionLen + 2
 
 		updateStatus(rowDelta, colDelta, "checking...")
-		isAchieved := goal.IsAchieved()
+		var isAchieved = true
+		if withAchieve, ok := goal.(core.WithAchieve); ok {
+			isAchieved = withAchieve.IsAchieved()
+		}
 
 		if isAchieved {
 			updateStatus(rowDelta, colDelta, "skipped")
 		} else {
 			updateStatus(rowDelta, colDelta, "working...")
-			err = goal.Achieve()
+			if withAchieve, ok := goal.(core.WithAchieve); ok {
+				err = withAchieve.Achieve()
+			}
 			if err != nil {
 				updateStatus(rowDelta, colDelta, fmt.Sprintf("%v%v%v", red, "failed", reset))
 				fmt.Printf("\n%v%v%v", red, err, reset)
