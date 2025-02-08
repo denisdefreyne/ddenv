@@ -25,6 +25,10 @@ func (g RubyShadowenvCreated) HashIdentity() string {
 	return fmt.Sprintf("RubyShadowenvCreated %v", g)
 }
 
+func (g RubyShadowenvCreated) ManagedShadowenvFilePaths() []string {
+	return []string{RubyShadowenvCreated_Path}
+}
+
 func (g RubyShadowenvCreated) IsAchieved() bool {
 	_, err := os.Lstat(RubyShadowenvCreated_Path)
 	if err != nil {

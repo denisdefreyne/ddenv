@@ -33,6 +33,14 @@ type WithSubGoals interface {
 	SubGoals() []Goal
 }
 
+// An extension to `Goal` for goals that create Shadowenv files. This allows
+// cleaning up Shadowenv files that belong to former goals.
+type WithManagedShadowenvFilePaths interface {
+	// Returns paths, if any, to files in the Shadowenv directory. Must start
+	// with `.shadowenv.d/`.
+	ManagedShadowenvFilePaths() []string
+}
+
 var goalFnsByName map[string]func(value interface{}) (Goal, error)
 
 func init() {

@@ -24,6 +24,10 @@ func (g RedisShadowenvCreated) HashIdentity() string {
 	return fmt.Sprintf("RedisShadowenvCreated %v", g)
 }
 
+func (g RedisShadowenvCreated) ManagedShadowenvFilePaths() []string {
+	return []string{RedisShadowenvCreated_Path}
+}
+
 func (g RedisShadowenvCreated) IsAchieved() bool {
 	_, err := os.Lstat(RedisShadowenvCreated_Path)
 	if err != nil {

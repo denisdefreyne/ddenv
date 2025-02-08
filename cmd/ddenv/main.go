@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	flag "github.com/spf13/pflag"
 
@@ -160,6 +161,48 @@ func calcUseColor() bool {
 
 var useColor = calcUseColor()
 
+func gcManagedShadowenvFiles(goals []core.Goal) {
+	// Get Shadowenv dir contents.
+	f, err := os.Open(".shadowenv.d")
+	if err != nil {
+		return
+	}
+	files, err := f.Readdir(0)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// Collect all file paths for files that exist. This array will be modified
+	// later, so that it only contains the file paths that need to be removed.
+	filePaths := make(map[string]struct{})
+	for _, v := range files {
+		name := ".shadowenv.d/" + v.Name()
+		if strings.HasSuffix(name, ".lisp") {
+			filePaths[name] = struct{}{}
+		}
+	}
+
+	// Remove correctly managed file paths from `filePaths`.
+	for _, goal := range goals {
+		if g, ok := goal.(core.WithManagedShadowenvFilePaths); ok {
+			for _, filePath := range g.ManagedShadowenvFilePaths() {
+				_, found := filePaths[filePath]
+				if found {
+					delete(filePaths, filePath)
+				}
+			}
+		}
+	}
+
+	// Delete obsolete files.
+	if len(filePaths) > 0 {
+		for filePath := range filePaths {
+			os.Remove(filePath)
+		}
+	}
+}
+
 func main() {
 	// Parse args
 	var showVersion = flag.BoolP("version", "v", false, "print version")
@@ -206,6 +249,7 @@ func main() {
 		reset = "\u001B[0m"
 	}
 
+	// Execute
 	for idx, goal := range gs {
 		rowDelta := len(gs) - idx
 		colDelta := maxDescriptionLen + 2
@@ -232,4 +276,6 @@ func main() {
 			}
 		}
 	}
+
+	gcManagedShadowenvFiles(gs)
 }

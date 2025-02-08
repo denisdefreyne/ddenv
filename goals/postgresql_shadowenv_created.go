@@ -25,6 +25,10 @@ func (g PostgresqlShadowenvCreated) HashIdentity() string {
 	return fmt.Sprintf("PostgresqlShadowenvCreated %v", g)
 }
 
+func (g PostgresqlShadowenvCreated) ManagedShadowenvFilePaths() []string {
+	return []string{PostgresqlShadowenvCreated_Path}
+}
+
 func (g PostgresqlShadowenvCreated) IsAchieved() bool {
 	_, err := os.Lstat(PostgresqlShadowenvCreated_Path)
 	if err != nil {

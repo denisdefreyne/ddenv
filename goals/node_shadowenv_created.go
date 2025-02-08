@@ -25,6 +25,10 @@ func (g NodeShadowenvCreated) HashIdentity() string {
 	return fmt.Sprintf("NodeShadowenvCreated %v", g)
 }
 
+func (g NodeShadowenvCreated) ManagedShadowenvFilePaths() []string {
+	return []string{NodeShadowenvCreated_Path}
+}
+
 func (g NodeShadowenvCreated) IsAchieved() bool {
 	_, err := os.Lstat(NodeShadowenvCreated_Path)
 	if err != nil {
