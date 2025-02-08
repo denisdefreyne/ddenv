@@ -65,7 +65,6 @@ func (g PostgresqlSetUp) HashIdentity() string {
 
 func (g PostgresqlSetUp) PreGoals() []core.Goal {
 	return []core.Goal{
-		HomebrewPackageInstalled{PackageName: g.homebrewPackageName()},
 		PostgresqlStarted{Version: g.Version, Env: g.Env},
 		PostgresqlShadowenvCreated{Version: g.Version, Env: g.Env},
 	}
