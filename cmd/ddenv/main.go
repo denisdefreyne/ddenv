@@ -127,12 +127,6 @@ func flattenGoals(out []core.Goal, inGoal core.Goal) []core.Goal {
 
 	out = append(out, inGoal)
 
-	if withPostGoals, ok := inGoal.(core.WithPostGoals); ok {
-		for _, g := range withPostGoals.PostGoals() {
-			out = flattenGoals(out, g)
-		}
-	}
-
 	return out
 }
 

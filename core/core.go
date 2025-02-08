@@ -16,10 +16,6 @@ type WithPreGoals interface {
 	PreGoals() []Goal
 }
 
-type WithPostGoals interface {
-	PostGoals() []Goal
-}
-
 var goalFnsByName map[string]func(value interface{}) (Goal, error)
 
 func init() {
