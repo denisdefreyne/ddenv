@@ -6,21 +6,9 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
-	"strings"
 
 	"denisdefreyne.com/x/ddenv/core"
 )
-
-func init() {
-	core.RegisterGoal("node", func(value interface{}) (core.Goal, error) {
-		if nodeVersionBytes, err := os.ReadFile(".node-version"); err != nil {
-			return nil, fmt.Errorf("expected .node-version to exist")
-		} else {
-			nodeVersionString := strings.TrimSpace(string(nodeVersionBytes))
-			return NodeInstalled{Version: nodeVersionString}, nil
-		}
-	})
-}
 
 type NodeInstalled struct {
 	Version string
@@ -53,12 +41,6 @@ func (g NodeInstalled) Achieve() error {
 func (g NodeInstalled) PreGoals() []core.Goal {
 	return []core.Goal{
 		HomebrewPackageInstalled{PackageName: "node-build"},
-	}
-}
-
-func (g NodeInstalled) PostGoals() []core.Goal {
-	return []core.Goal{
-		NodeShadowenvCreated{Version: g.Version, Path: g.path()},
 	}
 }
 
