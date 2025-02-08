@@ -39,7 +39,7 @@ func (g RubyInstalled) Achieve() error {
 	return nil
 }
 
-func (g RubyInstalled) PreGoals() []core.Goal {
+func (g RubyInstalled) SubGoals() []core.Goal {
 	return []core.Goal{
 		HomebrewPackageInstalled{PackageName: "ruby-install"},
 	}

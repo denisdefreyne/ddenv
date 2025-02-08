@@ -119,8 +119,8 @@ func ReadGoals() ([]core.Goal, error) {
 }
 
 func flattenGoals(out []core.Goal, inGoal core.Goal) []core.Goal {
-	if withPreGoals, ok := inGoal.(core.WithPreGoals); ok {
-		for _, g := range withPreGoals.PreGoals() {
+	if withSubGoals, ok := inGoal.(core.WithSubGoals); ok {
+		for _, g := range withSubGoals.SubGoals() {
 			out = flattenGoals(out, g)
 		}
 	}

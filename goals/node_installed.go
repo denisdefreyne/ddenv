@@ -38,7 +38,7 @@ func (g NodeInstalled) Achieve() error {
 	return nil
 }
 
-func (g NodeInstalled) PreGoals() []core.Goal {
+func (g NodeInstalled) SubGoals() []core.Goal {
 	return []core.Goal{
 		HomebrewPackageInstalled{PackageName: "node-build"},
 	}

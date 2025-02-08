@@ -31,7 +31,7 @@ func (g RubySetUp) HashIdentity() string {
 	return fmt.Sprintf("RubySetUp %v", g)
 }
 
-func (g RubySetUp) PreGoals() []core.Goal {
+func (g RubySetUp) SubGoals() []core.Goal {
 	rubyInstalledGoal := RubyInstalled{Version: g.Version}
 
 	return []core.Goal{

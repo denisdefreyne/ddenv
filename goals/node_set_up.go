@@ -31,7 +31,7 @@ func (g NodeSetUp) HashIdentity() string {
 	return fmt.Sprintf("NodeSetUp %v", g)
 }
 
-func (g NodeSetUp) PreGoals() []core.Goal {
+func (g NodeSetUp) SubGoals() []core.Goal {
 	nodeInstalledGoal := NodeInstalled{Version: g.Version}
 
 	return []core.Goal{

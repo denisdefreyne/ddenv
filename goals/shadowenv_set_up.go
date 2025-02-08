@@ -29,7 +29,7 @@ func (g ShadowenvSetUp) Achieve() error {
 	return err
 }
 
-func (g ShadowenvSetUp) PreGoals() []core.Goal {
+func (g ShadowenvSetUp) SubGoals() []core.Goal {
 	return []core.Goal{
 		ShadowenvInitialized{},
 		ShadowenvDirCreated{},

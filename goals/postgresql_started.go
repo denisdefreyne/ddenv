@@ -57,7 +57,7 @@ func (g PostgresqlStarted) Achieve() error {
 	return nil
 }
 
-func (g PostgresqlStarted) PreGoals() []core.Goal {
+func (g PostgresqlStarted) SubGoals() []core.Goal {
 	return []core.Goal{
 		HomebrewPackageInstalled{PackageName: g.homebrewPackageName()},
 	}

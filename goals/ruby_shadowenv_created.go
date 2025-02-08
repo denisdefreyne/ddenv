@@ -59,7 +59,7 @@ func (g RubyShadowenvCreated) Achieve() error {
 	return nil
 }
 
-func (g RubyShadowenvCreated) PreGoals() []core.Goal {
+func (g RubyShadowenvCreated) SubGoals() []core.Goal {
 	return []core.Goal{
 		ShadowenvSetUp{},
 	}

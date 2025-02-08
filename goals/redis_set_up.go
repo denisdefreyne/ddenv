@@ -52,7 +52,7 @@ func (g RedisSetUp) HashIdentity() string {
 	return fmt.Sprintf("RedisSetUp %v", g)
 }
 
-func (g RedisSetUp) PreGoals() []core.Goal {
+func (g RedisSetUp) SubGoals() []core.Goal {
 	return []core.Goal{
 		RedisStarted{Env: g.Env},
 		RedisShadowenvCreated{Env: g.Env},

@@ -12,8 +12,8 @@ type WithAchieve interface {
 	Achieve() error
 }
 
-type WithPreGoals interface {
-	PreGoals() []Goal
+type WithSubGoals interface {
+	SubGoals() []Goal
 }
 
 var goalFnsByName map[string]func(value interface{}) (Goal, error)

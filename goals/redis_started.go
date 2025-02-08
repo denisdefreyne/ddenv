@@ -18,7 +18,7 @@ func (g RedisStarted) HashIdentity() string {
 	return fmt.Sprintf("RedisStarted %v", g)
 }
 
-func (g RedisStarted) PreGoals() []core.Goal {
+func (g RedisStarted) SubGoals() []core.Goal {
 	return []core.Goal{
 		HomebrewPackageInstalled{PackageName: "redis"},
 	}

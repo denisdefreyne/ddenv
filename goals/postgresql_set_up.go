@@ -63,7 +63,7 @@ func (g PostgresqlSetUp) HashIdentity() string {
 	return fmt.Sprintf("PostgresqlSetUp %v", g)
 }
 
-func (g PostgresqlSetUp) PreGoals() []core.Goal {
+func (g PostgresqlSetUp) SubGoals() []core.Goal {
 	return []core.Goal{
 		PostgresqlStarted{Version: g.Version, Env: g.Env},
 		PostgresqlShadowenvCreated{Version: g.Version, Env: g.Env},
