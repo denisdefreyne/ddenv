@@ -28,7 +28,8 @@ type WithAchieve interface {
 // An extension to `Goal` for goals that have sub-goals. Sub-goals will be
 // attempted to be achieved before the main goal (this goal) itself.
 type WithSubGoals interface {
-	// Goals, in order, that need to be achieved before the main goal (this goal) can be achieved.
+	// Goals, in order, that need to be achieved before the main goal (this
+	// goal) can be achieved.
 	SubGoals() []Goal
 }
 
