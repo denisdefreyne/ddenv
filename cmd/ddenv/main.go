@@ -136,6 +136,7 @@ func updateStatus(rowDelta int, colDelta int, status string) {
 	fmt.Printf("\033[s")
 
 	// Move to line and column
+	fmt.Printf("\r") // beginning of line
 	fmt.Printf("\033[%dA", rowDelta)
 	fmt.Printf("\033[%dC", colDelta)
 
