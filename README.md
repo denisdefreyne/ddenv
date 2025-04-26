@@ -93,6 +93,14 @@ Now your local developer environment is ready to be used.
       - npm
     ```
 
+-   <code>pnpm</code> installs packages from package.json using pnpm. Example:
+
+    ```yaml
+    up:
+      - node
+      - pnpm
+    ```
+
 -   <code>yarn</code> installs packages from package.json using yarn. Example:
 
     ```yaml
