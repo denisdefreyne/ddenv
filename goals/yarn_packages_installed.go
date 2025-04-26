@@ -26,7 +26,7 @@ func (g YarnPackagesInstalled) HashIdentity() string {
 
 func (g YarnPackagesInstalled) IsAchieved() bool {
 	// Get raw output
-	cmd := exec.Command("shadowenv", "exec", "--", "yarn", "install", "--check-files")
+	cmd := exec.Command("shadowenv", "exec", "--", "npx", "check-dependencies")
 
 	err := cmd.Run()
 	return err == nil
