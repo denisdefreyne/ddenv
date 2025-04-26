@@ -93,6 +93,14 @@ Now your local developer environment is ready to be used.
       - npm
     ```
 
+-   <code>yarn</code> installs packages from package.json using yarn. Example:
+
+    ```yaml
+    up:
+      - node
+      - yarn
+    ```
+
 -   <code>postgresql: <var>…</var></code> installs the given version of PostgreSQL (the <var>version</var> key), starts it, and sets up environment variables based on the <var>env</var> key (`User`, `Password`, `Host` and `Port` are available as keys). Example:
 
     ```yaml
