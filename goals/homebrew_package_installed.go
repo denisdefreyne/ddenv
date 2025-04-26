@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	core.RegisterGoal("homebrew", func(value interface{}) (core.Goal, error) {
+	core.RegisterGoal("homebrew", func(value any) (core.Goal, error) {
 		if packageName, ok := value.(string); ok {
 			return HomebrewPackageInstalled{PackageName: packageName}, nil
 		} else {
@@ -23,7 +23,7 @@ type HomebrewPackageInstalled struct {
 }
 
 type brewInfoFormula struct {
-	Installed []interface{}
+	Installed []any
 }
 
 type brewInfoCask struct {
@@ -36,7 +36,7 @@ type brewInfo struct {
 }
 
 type brewInfoEntry struct {
-	Installed []interface{}
+	Installed []any
 }
 
 func (g HomebrewPackageInstalled) Description() string {

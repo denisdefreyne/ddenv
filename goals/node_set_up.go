@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	core.RegisterGoal("node", func(value interface{}) (core.Goal, error) {
+	core.RegisterGoal("node", func(value any) (core.Goal, error) {
 		if nodeVersionBytes, err := os.ReadFile(".node-version"); err != nil {
 			return nil, fmt.Errorf("expected .node-version to exist")
 		} else {

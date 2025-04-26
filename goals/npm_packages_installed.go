@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	core.RegisterGoal("npm", func(value interface{}) (core.Goal, error) {
+	core.RegisterGoal("npm", func(value any) (core.Goal, error) {
 		return NpmPackagesInstalled{}, nil
 	})
 }

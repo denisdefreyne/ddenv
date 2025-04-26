@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	core.RegisterGoal("bundle", func(value interface{}) (core.Goal, error) {
+	core.RegisterGoal("bundle", func(value any) (core.Goal, error) {
 		return BundleInstalled{}, nil
 	})
 }

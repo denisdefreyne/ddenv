@@ -21,7 +21,7 @@ var (
 )
 
 type Config struct {
-	Up []interface{}
+	Up []any
 }
 
 func ReadConfig() (Config, error) {
@@ -72,11 +72,11 @@ func ReadGoals() ([]core.Goal, error) {
 
 	for _, entry := range config.Up {
 		var key string
-		var value interface{}
+		var value any
 
 		if s, ok := entry.(string); ok {
 			key = s
-		} else if h, ok := entry.(map[interface{}]interface{}); ok {
+		} else if h, ok := entry.(map[any]any); ok {
 			if len(h) != 1 {
 				return nil, fmt.Errorf("too many keys (expected only 1)")
 			}

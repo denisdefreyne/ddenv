@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	core.RegisterGoal("ruby", func(value interface{}) (core.Goal, error) {
+	core.RegisterGoal("ruby", func(value any) (core.Goal, error) {
 		if rubyVersionBytes, err := os.ReadFile(".ruby-version"); err != nil {
 			return nil, fmt.Errorf("expected .ruby-version to exist")
 		} else {

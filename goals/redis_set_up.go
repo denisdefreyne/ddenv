@@ -7,8 +7,8 @@ import (
 )
 
 func init() {
-	core.RegisterGoal("redis", func(value interface{}) (core.Goal, error) {
-		detailsMap, ok := value.(map[interface{}]interface{})
+	core.RegisterGoal("redis", func(value any) (core.Goal, error) {
+		detailsMap, ok := value.(map[any]any)
 		if !ok {
 			return nil, fmt.Errorf("expected details map")
 		}
@@ -17,7 +17,7 @@ func init() {
 		rawEnv, ok := detailsMap["env"]
 		env := make(map[string]string)
 		if ok {
-			if typedEnv, ok := rawEnv.(map[interface{}]interface{}); !ok {
+			if typedEnv, ok := rawEnv.(map[any]any); !ok {
 				return nil, fmt.Errorf("expected env to be a map")
 			} else {
 				for rawKey, rawValue := range typedEnv {

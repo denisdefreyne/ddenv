@@ -41,10 +41,10 @@ type WithManagedShadowenvFilePaths interface {
 	ManagedShadowenvFilePaths() []string
 }
 
-var goalFnsByName map[string]func(value interface{}) (Goal, error)
+var goalFnsByName map[string]func(value any) (Goal, error)
 
 func init() {
-	goalFnsByName = make(map[string]func(value interface{}) (Goal, error))
+	goalFnsByName = make(map[string]func(value any) (Goal, error))
 }
 
 // Register a goal with the given name. The `name` parameter is the identifier
@@ -53,10 +53,10 @@ func init() {
 //
 // For example:
 //
-//	core.RegisterGoal("bundle", func(value interface{}) (core.Goal, error) {
+//	core.RegisterGoal("bundle", func(value any) (core.Goal, error) {
 //	  return BundleInstalled{}, nil
 //	})
-func RegisterGoal(name string, fn func(value interface{}) (Goal, error)) {
+func RegisterGoal(name string, fn func(value any) (Goal, error)) {
 	if _, ok := goalFnsByName[name]; ok {
 		panic(fmt.Sprintf("a goal named %q is already registered", name))
 	}
@@ -64,6 +64,6 @@ func RegisterGoal(name string, fn func(value interface{}) (Goal, error)) {
 	goalFnsByName[name] = fn
 }
 
-func FindGoal(name string) func(value interface{}) (Goal, error) {
+func FindGoal(name string) func(value any) (Goal, error) {
 	return goalFnsByName[name]
 }
