@@ -4,7 +4,7 @@
 
 Watch the 75-second introduction:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/SVd8HdS02yY?si=uuzR34oJlwoLtZzO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![YouTube video: “An introduction to ddenv”](https://img.youtube.com/vi/SVd8HdS02yY/0.jpg)](https://www.youtube.com/watch?v=SVd8HdS02yY)
 
 ## Requirements
 
