@@ -61,6 +61,20 @@ func removeDuplicateGoals(input []core.Goal) []core.Goal {
 	return res
 }
 
+// Remove goals that don’t have an Achieve(). These will be the goals that only
+// have children, such as the `RubySetUp` goal which only exists as a container.
+func removeEmptyGoals(input []core.Goal) []core.Goal {
+	res := make([]core.Goal, 0, len(input))
+
+	for _, goal := range input {
+		if _, ok := goal.(core.WithAchieve); ok {
+			res = append(res, goal)
+		}
+	}
+
+	return res
+}
+
 func ReadGoals() ([]core.Goal, error) {
 	// Get config
 	config, err := ReadConfig()
@@ -113,8 +127,11 @@ func ReadGoals() ([]core.Goal, error) {
 		flattenedGoals = flattenGoals(flattenedGoals, goal)
 	}
 
+	// Remove goals without Achieve(), i.e. remove goals that are just containers
+	achievableGoals := removeEmptyGoals(flattenedGoals)
+
 	// Remove duplicate goals
-	uniqueGoals := removeDuplicateGoals(flattenedGoals)
+	uniqueGoals := removeDuplicateGoals(achievableGoals)
 
 	return uniqueGoals, nil
 }
