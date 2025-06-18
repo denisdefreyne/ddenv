@@ -24,11 +24,33 @@ type Config struct {
 	Up []any
 }
 
-func ReadConfig() (Config, error) {
-	filename, _ := filepath.Abs("ddenv.yaml")
+// Read configuration file, from any of the known configuration file locations.
+func readConfigBytes() ([]byte, error) {
+	return readAnyfile(".config/ddenv.yaml", "ddenv.yaml")
+}
 
+// Read data from the first path that can be read from. If there are multiple
+// paths with files, only the first one will be used, and no error will be
+// returned.
+func readAnyfile(paths ...string) ([]byte, error) {
+	var data []byte
+	var err error
+
+	for _, path := range paths {
+		absPath, _ := filepath.Abs(path)
+
+		data, err = os.ReadFile(absPath)
+		if err == nil {
+			return data, nil
+		}
+	}
+
+	return nil, err
+}
+
+func readConfig() (Config, error) {
 	// Read file
-	yamlFile, err := os.ReadFile(filename)
+	yamlFile, err := readConfigBytes()
 	if err != nil {
 		return Config{}, err
 	}
@@ -77,7 +99,7 @@ func removeEmptyGoals(input []core.Goal) []core.Goal {
 
 func ReadGoals() ([]core.Goal, error) {
 	// Get config
-	config, err := ReadConfig()
+	config, err := readConfig()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 	}

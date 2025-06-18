@@ -14,7 +14,7 @@ Then, run `brew install denisdefreyne/tap/ddenv`.
 
 ## Quick start
 
-Create a `ddenv.yaml` file which contains the list of dependencies to manage. For example:[^ruby-and-node-version]
+Create a `.config/ddenv.yaml` or `ddenv.yaml` file which contains the list of dependencies to manage. For example:[^ruby-and-node-version]
 
 ```yaml
 up:
