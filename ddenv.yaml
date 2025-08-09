@@ -4,4 +4,4 @@
 
 up:
   - homebrew: golang
-  - homebrew: goreleaser/tap/goreleaser
+  - homebrew_cask: goreleaser/tap/goreleaser

@@ -11,15 +11,26 @@ import (
 func init() {
 	core.RegisterGoal("homebrew", func(value any) (core.Goal, error) {
 		if packageName, ok := value.(string); ok {
-			return HomebrewPackageInstalled{PackageName: packageName}, nil
+			return HomebrewPackageInstalled{PackageName: packageName, IsCask: false}, nil
 		} else {
-			return nil, fmt.Errorf("expected string package name")
+			return nil, fmt.Errorf("expected string formula name")
+		}
+	})
+}
+
+func init() {
+	core.RegisterGoal("homebrew_cask", func(value any) (core.Goal, error) {
+		if packageName, ok := value.(string); ok {
+			return HomebrewPackageInstalled{PackageName: packageName, IsCask: true}, nil
+		} else {
+			return nil, fmt.Errorf("expected string cask name")
 		}
 	})
 }
 
 type HomebrewPackageInstalled struct {
 	PackageName string
+	IsCask      bool
 }
 
 type brewInfoFormula struct {
@@ -40,7 +51,11 @@ type brewInfoEntry struct {
 }
 
 func (g HomebrewPackageInstalled) Description() string {
-	return fmt.Sprintf("Installing Homebrew package ‘%v’", g.PackageName)
+	if g.IsCask {
+		return fmt.Sprintf("Installing Homebrew cask ‘%v’", g.PackageName)
+	} else {
+		return fmt.Sprintf("Installing Homebrew formula ‘%v’", g.PackageName)
+	}
 }
 
 func (g HomebrewPackageInstalled) HashIdentity() string {
@@ -49,7 +64,12 @@ func (g HomebrewPackageInstalled) HashIdentity() string {
 
 func (g HomebrewPackageInstalled) IsAchieved() bool {
 	// Get raw output
-	brewInfoCmd := exec.Command("brew", "info", "--json=v2", g.PackageName)
+	var brewInfoCmd *exec.Cmd
+	if g.IsCask {
+		brewInfoCmd = exec.Command("brew", "info", "--json=v2", "--cask", g.PackageName)
+	} else {
+		brewInfoCmd = exec.Command("brew", "info", "--json=v2", g.PackageName)
+	}
 	brewInfoOut, err := brewInfoCmd.Output()
 	if err != nil {
 		return false
@@ -76,7 +96,12 @@ func (g HomebrewPackageInstalled) IsAchieved() bool {
 }
 
 func (g HomebrewPackageInstalled) Achieve() error {
-	cmd := exec.Command("brew", "install", g.PackageName)
+	var cmd *exec.Cmd
+	if g.IsCask {
+		cmd = exec.Command("brew", "install", "--cask", g.PackageName)
+	} else {
+		cmd = exec.Command("brew", "install", g.PackageName)
+	}
 
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
