@@ -11,6 +11,7 @@ up:
       env:
         REDIS_URL: "redis://{{ .Host }}:{{ .Port }}/0"
   - homebrew: overmind
+  - homebrew_cask: font-iosevka
   - ruby
   - bundle
   - node
