@@ -46,10 +46,6 @@ type brewInfo struct {
 	Casks    []brewInfoCask
 }
 
-type brewInfoEntry struct {
-	Installed []any
-}
-
 func (g HomebrewPackageInstalled) Description() string {
 	if g.IsCask {
 		return fmt.Sprintf("Installing Homebrew cask ‘%v’", g.PackageName)
