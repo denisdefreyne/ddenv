@@ -57,11 +57,18 @@ Now your local developer environment is ready to be used.
 
 ## Goals
 
--   <code>homebrew: <var>PACKAGENAME</var></code> installs the Homebrew package with the given name. Example:
+-   <code>homebrew: <var>PACKAGENAME</var></code> installs the Homebrew formula with the given name. Example:
 
     ```yaml
     up:
-      - homebrew: overmind
+      - homebrew: "overmind"
+    ```
+
+-   <code>homebrew_cask: <var>PACKAGENAME</var></code> installs the Homebrew cask with the given name. Example:
+
+    ```yaml
+    up:
+      - homebrew_cask: "1password"
     ```
 
 -   <code>ruby</code> installs Ruby (with the version specified in the `.ruby-version` file). Example:
