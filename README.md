@@ -71,6 +71,22 @@ Now your local developer environment is ready to be used.
       - homebrew_cask: "1password"
     ```
 
+-   <code>homebrew_tap</code> taps the Homebrew repository with the given name. It can be given a name (user/repository pair), for example:
+
+    ```yaml
+    up:
+      - homebrew_tap: "ephread/ink"
+    ```
+
+    Alternatively, it can be given a name (user/repository pair) and a URL, for example:
+
+    ```yaml
+    up:
+      - homebrew_tap:
+          name: "denisdefreyne/tap"
+          url: "https://codeberg.org/denis_defreyne/homebrew-tap.git"
+    ```
+
 -   <code>ruby</code> installs Ruby (with the version specified in the `.ruby-version` file). Example:
 
     ```yaml

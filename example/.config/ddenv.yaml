@@ -1,4 +1,19 @@
 up:
+  # Homebrew tap without URL
+  - homebrew_tap: ephread/ink
+  - homebrew: inklecate
+
+  # Homebrew tap with URL
+  - homebrew_tap:
+      name: "denisdefreyne/tap"
+      url: "https://codeberg.org/denis_defreyne/homebrew-tap.git"
+  - homebrew: ddwww
+
+  # Core Homebrew packages
+  - homebrew: overmind
+  - homebrew_cask: font-iosevka
+
+  # Services
   - postgresql:
       version: 17
       env:
@@ -10,8 +25,7 @@ up:
   - redis:
       env:
         REDIS_URL: "redis://{{ .Host }}:{{ .Port }}/0"
-  - homebrew: overmind
-  - homebrew_cask: font-iosevka
+
   - ruby
   - bundle
   - node
